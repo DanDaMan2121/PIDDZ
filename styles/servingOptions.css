@@ -1,0 +1,66 @@
+#back {
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    font-size: small;
+}
+
+button {
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+h1, h2{
+    padding: 10px;
+    text-align: center;
+    background-color: #1d1d1d;
+    
+}
+
+
+.crust, .size {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    border-bottom: 5px solid green;
+}
+
+.contrastDivCrust {
+    display: block;
+    width: 100%;
+    height: calc(80vh - 50px);
+    background-color: #404343;
+}
+
+.storeContainer {
+    padding: 10px;
+    border-bottom: 3px solid green;
+}
+
+.values {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    /* justify-self: s; */
+}
+
+#submit {
+    background-color: green;
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+    /* padding: 10px; */
+    /* justify-self: center; */
+    /* align-self: center; */
+}
+.continueContainer {
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    text-align: center;
+}
