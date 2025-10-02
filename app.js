@@ -7,6 +7,7 @@
     const container1 = document.getElementById('container1');
     const container2 = document.getElementById('container2');
 
+    console.log(container2);
     container2.style.display = 'none';
 
     let meatBtn = document.getElementById('Meat');
@@ -60,4 +61,10 @@
         quantityTemplate('quantity', servingContainer, 'pizza');
 
         
+    });
+
+    const checkoutBtn = document.getElementById('checkout');
+
+    checkoutBtn.addEventListener('click', () => {
+        window.location.href = './checkout.html';
     });
