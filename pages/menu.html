@@ -3,53 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/styles.css">
     <title>Document</title>
+    <title>Dynamic Buttons</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="style2.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <!-- <header style="display: block;"></header> -->
-    <div class="card mb-2" id="listContainer">
-        <div id="sOptions"></div>
-        <div id="tList"></div>
+    <div id="servingContainer">
+        <h2>SERVING OPTIONS</h1>
     </div>
+    <div id="sauceContainer">
+        <h2>SAUCE OPTIONS</h2>
+    </div>
+    <div id="toppingContainer">
+        <h2>TOPPINGS</h2>
+        <div id="toppingSelector">
+            <span id="Meat">Meat</span>
+            <span id="Vegtables">Vegtables</span>
+        </div>
+        <div id="container1"></div>
+        <div id="container2"></div>
+    </div>
+    
+ 
 
-    <section class="card mb-2 servingOptions" id="servingOptions">
-        <div class="card-header"><span class="icon">🍕</span>SERVING OPTIONS</div>
-        <div class="crust">
-            <div>Select Crust</div>
-            <div>Hand Tossed</div>
-        </div>
-        <div class="size">
-            <div>Select Size</div>
-            <div>Medium (12")</div>
-        </div>
-        <div class="quantityContainer" id="quantityContainer">
-            <div>Select Quantity</div>
-            <div id="pizzaQuantity">
-                <span id="lessPizza" tabindex="0" aria-label="Decrease quantity">-</span>
-                <span>1</span>
-                <span id="morePizza" tabindex="0" aria-label="Increase quantity">+</span>
-            </div>
-        </div>
-        <div class="contrastDiv"></div>
-    </section>
-
-    <section class="card mb-2 sauceOptions">
-        <div class="card-header"><span class="icon">🥫</span>SAUCE</div>
-        <div id="sauceContainer"></div>
-        <div class="contrastDiv"></div>
-    </section>
-
-    <section class="card mb-2">
-        <div class="card-header"><span class="icon">🧀</span>TOPPING OPTIONS</div>
-        <div class="toppingOption mb-2">
-            <button id="meats" class="btn-main" style="width:auto;min-width:120px;margin-right:8px;">Meats</button>
-            <button id="veggies" class="btn-main" style="width:auto;min-width:120px;">Veggies & More</button>
-        </div>
-        <div class="container" id="container"></div>  
-        <div class="container" id="vegContainer"></div>  
-    </section>
-    <button id="checkout" class="btn-main" style="margin: 0 auto 32px auto; max-width: 400px;">CHECKOUT</button>
 </body>
-<script type="module" src="../app.js"></script>
+<script src="app.js" type="module"></script>
 </html>
