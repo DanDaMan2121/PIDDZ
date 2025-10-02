@@ -8,9 +8,9 @@ let pay = document.getElementById('payContainer');
 
 let setOptions = (myPizza, sOptions) => {
     if (myPizza._quantity > 1) {
-        sOptions.innerHTML = `${myPizza._size} ${myPizza._crust} (${myPizza._quantity})`;
+        sOptions.innerHTML = `${myPizza.size} ${myPizza.crust} (${myPizza.quantity})`;
     } else {
-        sOptions.innerHTML = `${myPizza._size} ${myPizza._crust}`;
+        sOptions.innerHTML = `${myPizza.size} ${myPizza.crust}`;
     }
     let cost = 0;
     let quantity = myPizza._quantity;
@@ -26,18 +26,18 @@ let setOptions = (myPizza, sOptions) => {
 }
 
 let setList = (myPizza, tList) => {
-    let tString = `${myPizza._sauce[0]}, Cheese`;
+    let tString = `${myPizza.sauce[0]}, Cheese`;
 
-    let length = myPizza._toppings.length;
+    let length = myPizza.toppings.length;
     if (length != 0) {
         for (let i = 0; i < length; i++ ) {
             if (i == 0) {
                 tString = tString  + `, `;
             }
             if (i == length - 1){ 
-                tString = tString + `${myPizza._toppings[i][0]} (${myPizza._toppings[i][1]} ${myPizza._toppings[i][2]})`
+                tString = tString + `${myPizza.toppings[i][0]} (${myPizza.toppings[i][1]} ${myPizza.toppings[i][2]})`
             } else {
-                tString = tString + `${myPizza._toppings[i][0]} (${myPizza._toppings[i][1]} ${myPizza._toppings[i][2]}), `
+                tString = tString + `${myPizza.toppings[i][0]} (${myPizza.toppings[i][1]} ${myPizza.toppings[i][2]}), `
             }
             
         }

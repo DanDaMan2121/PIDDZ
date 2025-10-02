@@ -239,108 +239,6 @@ ul li:hover {
     width: 100%;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    /* border: 5px solid green; */
-    font-size: small;
-}
-.container button {
-    background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
-
-.topping {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-
-}
-
-.choice-contianer {
-    display: flex;
-    justify-content: space-evenly;
-    width: 110px;
-    text-align: center;
-}
-
-.quantity {
-    display: inline-flex;
-    justify-content: center;
-    width: 60px;
-}
-
-.edit-item {
-    /* visibility: hidden; */
-    justify-content: space-between;
-    padding: 10px;
-}
-
-.edit-sauce {
-    padding: 5px;
-    justify-content: right;
-}
-
-.toppingDiv, .sauceDiv {
-    border-bottom: 3px solid green;
-}
-
-.pizzaCoverage {
-    display: flex;
-    justify-content: space-between;
-    width: 120px;
-    /* text-align: center; */
-}
-
-.less, .more {
-    /* display: flex; */
-    width: 20px;
-    height: 20px;
-}
-
-
-.toppingOption button {
-    background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
-.toppingOption {
-    display: flex;
-    /* justify-content: space-between; */
-    height: 40px;
-    /* justify-content: center; */
-    justify-content: space-evenly;
-}
-
-#meats {
-    width: 50%;
-    /* border: 3px solid green; */
-    color: rebeccapurple;
-    border-bottom: 5px solid rebeccapurple;
-}
-
-#veggies {
-    width: 50%;
-    border-bottom: 5px solid #404343;
-}
-
-#vegContainer {
-    display: none;
-}
-
-button.whole {
-    color: green;
-}
-
 .contrastDiv {
     display: block;
     width: 100%;
@@ -348,22 +246,6 @@ button.whole {
     background-color: #404343;
 }
 
-h3 {
-    padding: 5px;
-    background-color: green;
-}
-
-.crust, .size, .quantityContainer, .sauce {
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-
-}
-
-#lessPizza {
-    width: 20px;
-    height: 20px;
-}
 
 #checkout {
     /* text-align: center */
