@@ -1,8 +1,8 @@
-    import { Pizza } from './pages/pizzaClass.js';
-    import { populateToppings } from './toppings.js';
-    import { populateSauceOptions } from './sauceOptions.js';
-    import { servingOptionsTemplate } from './servingOptions.js';
-    import { quantityTemplate } from './quantityTemplate.js';
+    import { Pizza } from './modules/pizzaClass.js';
+    import { populateToppings } from './modules/toppings.js';
+    import { populateSauceOptions } from './modules/sauceOptions.js';
+    import { servingOptionsTemplate } from './modules/servingOptions.js';
+    import { quantityTemplate } from './modules/quantityTemplate.js';
 
     const container1 = document.getElementById('container1');
     const container2 = document.getElementById('container2');

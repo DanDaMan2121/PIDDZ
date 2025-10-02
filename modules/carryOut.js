@@ -52,7 +52,7 @@ sizeContainer.addEventListener('click', (e) => {
             // console.log(myStore);
             sessionStorage.setItem('location', JSON.stringify(location));
             console.log(JSON.parse(sessionStorage.getItem('location')));
-            window.location.href = './menu.html';
+            window.location.href = '../pages/menu.html';
 
         }
 

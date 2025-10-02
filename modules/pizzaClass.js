@@ -1,4 +1,4 @@
-class Pizza {
+export class Pizza {
     constructor(
         crust = 'Hand Tossed',
         size = 'Medium (12")',
@@ -17,4 +17,4 @@ class Pizza {
 }
 
 
-export default Pizza;
+// export default Pizza;
