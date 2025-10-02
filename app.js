@@ -1,4 +1,4 @@
-    import { Pizza } from './pizzaClass.js';
+    import { Pizza } from './pages/pizzaClass.js';
     import { populateToppings } from './toppings.js';
     import { populateSauceOptions } from './sauceOptions.js';
     import { servingOptionsTemplate } from './servingOptions.js';
