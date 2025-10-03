@@ -4,11 +4,11 @@ let carryOut = document.getElementById('carryOut');
 
 
 delivery.addEventListener('click', () => {
-    window.location.href = '/pages/delivery.html';
+    window.location.href = './pages/delivery.html';
 })
 
 carryOut.addEventListener('click', () => {
-    window.location.href = '/pages/carryOut.html';
+    window.location.href = './pages/carryOut.html';
 })
 
 window.document.addEventListener('DOMContentLoaded', () => {

@@ -1,4 +1,21 @@
-/* serving options */
+#pizzaSummary {
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+    font-weight:bolder;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    /* text-align: center; */
+    /* align-items: center; */
+    justify-content: center;
+}
+
+#pizzaCrust, #pizzaSize {
+    padding: 0 5px;
+}
 #servingContainer {
     padding: 0;
     width: 100%;

@@ -6,7 +6,6 @@ export const servingOptionsTemplate = (title, optionList, container, objecName) 
     let myObject = JSON.parse(localStorage.getItem(objecName));
     optionTitle.textContent = title;
 
-    // console.log(myObject);
 
     let optionBtn = document.createElement('button');
     optionBtn.textContent = (myObject[title] != optionList[0]) ? myObject[title] : optionList[0];
@@ -33,7 +32,6 @@ export const servingOptionsTemplate = (title, optionList, container, objecName) 
         selection.className = 'selection';
         selection.textContent = optionList[i];
         selection.addEventListener('click', () => {
-            
             let myObject = JSON.parse(localStorage.getItem(objecName));
             myObject[title] = selection.textContent;
             const myObjectAsString = JSON.stringify(myObject);
@@ -41,6 +39,11 @@ export const servingOptionsTemplate = (title, optionList, container, objecName) 
 
             optionBtn.textContent = selection.textContent;
             hiddenContainer.style.display = 'none';
+
+            //update visual
+            let upperTitle = title.charAt(0).toUpperCase() + title.slice(1)
+            let pizzaSelection = document.getElementById(`pizza${upperTitle}`);
+            pizzaSelection.textContent = myObject[title];
 
         });
         hiddenContainer.append(selection);

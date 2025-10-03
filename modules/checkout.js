@@ -7,16 +7,16 @@ let afterTax = document.getElementById('afterTax');
 let pay = document.getElementById('payContainer');
 
 let setOptions = (myPizza, sOptions) => {
-    if (myPizza._quantity > 1) {
+    if (myPizza.quantity > 1) {
         sOptions.innerHTML = `${myPizza.size} ${myPizza.crust} (${myPizza.quantity})`;
     } else {
         sOptions.innerHTML = `${myPizza.size} ${myPizza.crust}`;
     }
     let cost = 0;
-    let quantity = myPizza._quantity;
-    if (myPizza._size == 'Small (10")') {
+    let quantity = myPizza.quantity;
+    if (myPizza.size == 'Small (10")') {
         cost = 8.99 * quantity;
-    } else if (myPizza._size == 'Medium (12")') {
+    } else if (myPizza.size == 'Medium (12")') {
         cost = 10.99 * quantity;
 
     } else {
@@ -51,7 +51,12 @@ let generateCart = (cartList) => {
     let totalSum = 0;
     let cost = 0;
     tainer.innerHTML = '';
-    for (let i = 0; i < length; i++) {
+
+    let i = 0
+
+    for (i = 0; i < length; i++) {
+        const currntItem = JSON.parse(cartList[i]);
+
         let container = document.createElement('div');
         container.style.background = '#f8fafc';
         container.style.borderRadius = '12px';
@@ -69,14 +74,14 @@ let generateCart = (cartList) => {
         sOption.style.display = 'flex';
         sOption.style.alignItems = 'center';
         sOption.innerHTML = '🍕 ' + sOption.innerHTML;
-        cost = setOptions(cartList[i], sOption);
+        cost = setOptions(currntItem, sOption);
         totalSum = totalSum + cost;
 
         let tlist = document.createElement('div');
         tlist.className = 'tList';
         tlist.style.color = '#64748b';
         tlist.style.fontSize = '0.98rem';
-        setList(cartList[i], tlist);
+        setList(currntItem, tlist);
 
         let price = document.createElement('div');
         price.style.fontWeight = '700';
@@ -95,10 +100,7 @@ let generateCart = (cartList) => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    let myPizza = JSON.parse(sessionStorage.getItem('myPizza'));
-
     let cart = JSON.parse(sessionStorage.getItem('cart'));
-    console.log(cart);
     let totalSum = generateCart(cart);
     totalSumDiv.innerHTML = `Food Cost: $${totalSum}`;
     tax.innerHTML = `Tax: $${(.07 * totalSum).toFixed(2)}`;
@@ -108,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 orderMore.addEventListener('click', () => {
-    window.sessionStorage.setItem('myPizza', null);
+    localStorage.setItem('pizza', null);
     window.location.href = './menu.html';
 })
 

@@ -81,12 +81,12 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
     qContainer.append(quantityContainer);
 
     sauceButton.addEventListener('click', (event) => {
+        let pizzaSauce = document.getElementById('pizzaSauce');
         const sauceID = event.target.id;
         let sauceSelected = event.target;
         let newSauce = sauceID;
         let newQuantity = 'Normal';
-        // console.log(sauceSelected);
-
+        
         let qContainer = document.getElementById(`${sauceID}QuantityContainer`);
         const sauces = document.querySelectorAll(`.${setName}`);
         // console.log(quantityContainer);
@@ -101,27 +101,26 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
                 // console.log(otherQuatityContainer);
                 otherQuatityContainer.style.display = 'none';
             }
+            
         })
 
         if (otherQuatityContainer == qContainer) {
             newSauce = 'No sauce';
-            // newQuantity = '';
             qContainer.style.display = 'none';
             sauceSelected.textContent = 'add suace';
             qContainer.children[0].children[1].textContent = 'Normal';
             newQuantity = 'None';
-            // console.log(qContainer.children[0]);
-
-            
-            // console.log(myObject);
+        
         } else {
             qContainer.style.display = 'flex';
             sauceSelected.textContent = 'remove sauce';
             
         }
+
+        pizzaSauce.textContent = newSauce;
         
+        //update object and visual
         let myObject = JSON.parse(localStorage.getItem(objectName));
-        // console.log(myObject);
         myObject.sauce[0] = newSauce;
         myObject.sauce[1] = newQuantity;
         const myObjectAsString = JSON.stringify(myObject);

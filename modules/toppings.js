@@ -1,3 +1,4 @@
+    import { printToppings } from "../app.js";
     const quantityArray = ['Light', 'Normal', 'Extra'];
     
     const toppingTemplate = (name, color, container, objectName) => {
@@ -9,10 +10,8 @@
         divB.className = 'divB';
         //divB.id = `divB${name}`;
 
-        // current object // set state
-        // console.log(objectName);
+
         let myObject = JSON.parse(localStorage.getItem(objectName));
-        // console.log(JSON.parse(localStorage.getItem(objectName)));
         const toppingsLength = myObject.toppings.length
         let myIndex = -1;
         let currentTopping = null;
@@ -177,8 +176,8 @@
             const myIndex = changedToppingArray.indexOf(currentTopping);
             console.log(myIndex);
 
-            // let changedIndex = changedObject.getToppings().indexOf(name);
-
+            // if topping does not exist, add topping
+            // else remove topping
             if (myIndex == -1 || myIndex == undefined) {
                 buttonA.textContent = 'remove topping';
                 divB.style.display = 'flex';
@@ -189,14 +188,17 @@
                 button2.style.color = color;
                 button3.style.color = 'black';
                 quantity.textContent = 'Normal';
-                // console.log(name);
+                
             } else {
                 changedToppingArray.splice(myIndex, 1);
                 buttonA.textContent = 'add topping';
                 divB.style.display = 'none';
                 
             }
-            console.log(changedObject);
+
+            //update topping data and visual
+            let pizzaToppings = document.getElementById('pizzaToppings');
+            pizzaToppings.textContent = printToppings(changedObject);
             const myObjectAsString = JSON.stringify(changedObject);
             localStorage.setItem(objectName, myObjectAsString);
 

@@ -30,3 +30,4 @@ input[type='radio'][name='buttonGroup']:checked + label { background-color:#a0a0
   border-bottom: 3px solid green;
   border-image: linear-gradient(90deg, #22c55e 0%, #16a34a 100%) 1;
 }
+

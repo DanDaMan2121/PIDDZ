@@ -18,11 +18,14 @@ export const quantityTemplate = (name, container, objectName) => {
     buttonPlus.style.padding = '5px';
     buttonPlus.addEventListener('click', () => {
         let myObject = JSON.parse(localStorage.getItem(objectName));
-
+        let pizzaQantitiy = document.getElementById('pizzaQuantity');
         if (quantity.textContent < 99) {
             quantity.textContent = parseInt(quantity.textContent) + 1;
             myObject.quantity = quantity.textContent;
+    
         }
+        //update object and visual
+        pizzaQantitiy.textContent = (myObject.quantity > 1) ? `(${myObject.quantity})` : myObject.quantity;
         const myObjectAsString = JSON.stringify(myObject);
         localStorage.setItem(objectName, myObjectAsString);
 
@@ -37,10 +40,13 @@ export const quantityTemplate = (name, container, objectName) => {
     buttonMinus.style.padding = '5px';
     buttonMinus.addEventListener('click', () => {
         let myObject = JSON.parse(localStorage.getItem(objectName));
-         if (quantity.textContent > 1) {
+        let pizzaQantitiy = document.getElementById('pizzaQuantity');
+        if (quantity.textContent > 1) {
             quantity.textContent = quantity.textContent - 1;
             myObject.quantity = quantity.textContent;
         }
+        //update object and visual
+        pizzaQantitiy.textContent = (myObject.quantity > 1) ? `(${myObject.quantity})` : '';
         const myObjectAsString = JSON.stringify(myObject);
         localStorage.setItem(objectName, myObjectAsString);
     })

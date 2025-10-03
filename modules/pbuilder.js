@@ -150,6 +150,7 @@ export let choiceTemplate = () => {
 }
 
 
+
 export function loadToppings (container, toppings) {
     
     for (let i = 0; i < toppings.length; i++) {
