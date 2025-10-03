@@ -1,17 +1,16 @@
 /* serving options */
 #servingContainer {
-    /* text-align: center; */
-    /* font-size: x-small; */
-    /* background-color: gray; */
     padding: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
+
 .optionContainer {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 5px;
 }
 
 .hiddenContainer {
@@ -38,12 +37,9 @@
 .selection {
     padding: 0;
     text-align: left;
-    /* padding: 5px, 5px, 5px, 5px; */
-    /* margin-bottom: 5px/; */
     padding: 5px;
     font-size: large;
     background-color: green;
-    /* color: white; */
     border-bottom: solid 3px black;
 }
 

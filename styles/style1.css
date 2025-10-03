@@ -11,6 +11,7 @@ button {
 #toppingSelector {
     display: flex;
     justify-content: space-around;
+    padding: 10px 0 10px;
     /* border-bottom: 3px solid green; */
 
 }
@@ -22,7 +23,7 @@ button {
 }
 .quantityContainer {
     display: flex;
-    width: 30%;
+    width: 40%;
     justify-content: space-between;
 }
 
@@ -34,12 +35,22 @@ button {
 
 .templateContainer {
     border-bottom: 3px solid green;
+    border-image: linear-gradient(90deg, #22c55e 0%, #16a34a 100%) 1;
+    margin-bottom: 5px;
 }
 .divA, .divB {
     display: flex;
     justify-content: space-between;
     padding-top: 5px;
     /* justify-items: left; */
+}
+
+h3 {
+    padding-bottom: 7px;
+    padding-top: 7px;
+    color: white;
+    text-align: center;
+    background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
 }
 
 

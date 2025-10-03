@@ -14,9 +14,19 @@ label {
 input[type='radio'][name='buttonGroup']:checked + label { background-color:#a0a0a0; }
 
 
+#servingContainer, #sauceContainer, #toppingContainer {
+  background: #f3f4f6;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+
 .sauceOptionContainer {
   display: flex;
   justify-content: space-between;
 }
 
-
+.sauceContainer  {
+  margin: 7px 0 7px;
+  border-bottom: 3px solid green;
+  border-image: linear-gradient(90deg, #22c55e 0%, #16a34a 100%) 1;
+}

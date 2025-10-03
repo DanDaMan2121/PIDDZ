@@ -7,6 +7,7 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
     // console.log(mySauce[0]);
     
     let sauceContainer = document.createElement('div');
+    sauceContainer.className = 'sauceContainer';
     let sauceOptionContainer = document.createElement('div');
     sauceOptionContainer.className = 'sauceOptionContainer';
     
