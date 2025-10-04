@@ -1,8 +1,8 @@
-    import { Pizza } from './modules/pizzaClass.js';
-    import { populateToppings } from './modules/toppings.js';
-    import { populateSauceOptions } from './modules/sauceOptions.js';
-    import { servingOptionsTemplate } from './modules/servingOptions.js';
-    import { quantityTemplate } from './modules/quantityTemplate.js';
+    import { Pizza } from './pizzaClass.js'
+    import { populateToppings, printToppings } from './toppings.js';
+    import { populateSauceOptions } from './sauceOptions.js';
+    import { servingOptionsTemplate } from './servingOptions.js';
+    import { quantityTemplate } from './quantityTemplate.js';
 
     const container1 = document.getElementById('container1');
     const container2 = document.getElementById('container2');
@@ -40,17 +40,6 @@
         container2.style.display = 'flex';
     });
 
-    export const printToppings = (myObject) => {
-        const toppings = myObject.toppings;
-        const length = toppings.length;
-        let toppingsString = '';
-        let i = 0;
-        for (i; i < length; i++) {
-            toppingsString = toppingsString + ', ' + toppings[i][0];
-        }
-
-        return toppingsString;
-    }
 
     const printSummary = (container, myObject) => {
         let sizeAndCrust = document.createElement('div');
@@ -81,7 +70,7 @@
     }
    
 
-    document.addEventListener('DOMContentLoaded', () => {
+    export const loadPizzaBuilder = () => {
         const myCart = JSON.parse(sessionStorage.getItem('cart'));
         let myPizza = JSON.parse(localStorage.getItem('pizza'));
         let pizzaSum = document.getElementById('pizzaSummary');
@@ -106,7 +95,7 @@
         quantityTemplate('quantity', servingContainer, 'pizza');
         printSummary(pizzaSum, myObject);
 
-    });
+    };
 
     const checkoutBtn = document.getElementById('checkout');
 
@@ -119,3 +108,8 @@
 
         window.location.href = './checkout.html';
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPizzaBuilder();
+        
+    })

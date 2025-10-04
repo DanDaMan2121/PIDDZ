@@ -1,4 +1,3 @@
-    import { printToppings } from "../app.js";
     const quantityArray = ['Light', 'Normal', 'Extra'];
     
     const toppingTemplate = (name, color, container, objectName) => {
@@ -228,6 +227,19 @@
         container.append(containerDiv);
 
     }
+
+    export const printToppings = (myObject) => {
+        const toppings = myObject.toppings;
+        const length = toppings.length;
+        let toppingsString = '';
+        let i = 0;
+        for (i; i < length; i++) {
+            toppingsString = toppingsString + ', ' + toppings[i][0];
+        }
+
+        return toppingsString;
+    }
+
 
     export const populateToppings = (toppingList, color, container, objectName) => {
         const length = toppingList.length;
