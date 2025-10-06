@@ -1,0 +1,260 @@
+/* Imports the Nunito Font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+/* Resets to default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif; 
+}
+/* Ensures that the page can scroll properly */
+html, body {
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* Main body background and minimum height */
+body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif; 
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+    min-height: 100vh;
+}
+/* Container for category filter buttons */
+.category-filter {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.filter-title {
+    color: #23272f;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 15px; /* Shows the Space between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+    flex-wrap: wrap; /* Wrap buttons on smaller screens */
+}
+/* Shows the Individual filter button styles */
+.filter-btn {
+    padding: 10px 24px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-family: inherit;
+    color: #23272f;
+}
+/* Shows the Filter button hover effect */
+.filter-btn:hover {
+    border-color: #22c55e;
+}
+/* Shows the Active/Selected filter button style */
+.filter-btn.active {
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    color: white;
+    border-color: #16a34a;
+}
+/* Grid container for menu items */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding-bottom: 80px;
+    width: 100%;
+}
+/* Individual menu item card */
+.menuItem {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+/* Card hover effect */
+.menuItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+/* Shows the Green gradient header containing category and item name */
+.item-image {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    padding: 30px 20px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 120px;
+}
+/* Shows the Category badge (PIZZA, SIDES, etc.) */
+.item-category {
+    background: rgba(255,255,255,0.3);
+    padding: 5px 14px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    color: white;
+}
+/* Shows the Item name in the header */
+.item-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+/* Shows the Container for the description and the footer */
+.item-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.item-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    flex: 1;
+}
+/* Shows the footer Container for price and action button */
+.item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: auto;
+}
+/* Price display */
+.item-price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #22c55e;
+    white-space: nowrap;
+}
+/* Shows the Add to Cart Button */
+.item-action {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.item-action:hover {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    transform: scale(1.05);
+}
+/* Shows the Floating cart button in bottom-right corner */
+.cart-badge {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(34,197,94,0.4);
+    z-index: 1000;
+    border: none;
+    transition: all 0.3s;
+}
+/* Cart button hover effect */
+.cart-badge:hover {
+    transform: scale(1.1);
+}
+/* Cart item count badge */
+.cart-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #ef4444;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 3px solid white;
+}
+/* For Tablet and Smaller screens */
+@media (max-width: 768px) {
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .filter-buttons {
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 18px;
+        font-size: 0.85rem;
+    }
+    
+    .item-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .item-action {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .item-name {
+        font-size: 1.2rem;
+    }
+    
+    .item-price {
+        font-size: 1.5rem;
+    }
+}
