@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Dashboard - PIDDZ</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+        <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+            min-height: 100vh;
+            font-family: 'Inter', 'Poppins', Arial, sans-serif;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+        
+        .dashboard-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+        
+        .order-id {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #23272f;
+        }
+        
+        .order-time {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .order-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-preparing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-delivered {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .order-items {
+            margin: 16px 0;
+        }
+        
+        .order-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: #23272f;
+            margin-bottom: 4px;
+        }
+        
+        .item-details {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        
+        .order-location {
+            margin: 12px 0;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .location-label {
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 4px;
+        }
+        
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 2px solid #f3f4f6;
+        }
+        
+        .total-label {
+            font-weight: 600;
+            color: #23272f;
+        }
+        
+        .total-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #16a34a;
+        }
+        
+        .status-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .status-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .status-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-preparing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .btn-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .btn-delivered {
+            background: #22c55e;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state-text {
+            font-size: 1.2rem;
+            color: #64748b;
+        }
+        
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            transition: transform 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>🍕 PIDDZ Business Dashboard</h1>
+        <p style="margin: 8px 0 0 0; opacity: 0.9;">Real-time Order Management</p>
+    </div>
+    
+    <div class="dashboard-container">
+        <div id="ordersContainer" class="orders-grid">
+            <!-- Orders will be loaded here dynamically -->
+        </div>
+        
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📭</div>
+            <div class="empty-state-text">No orders yet. Waiting for customers...</div>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" id="refreshBtn" title="Refresh orders">🔄</button>
+    
+
+    
+    <script type="module" src="../modules/dashboard.js"></script>
+</body>
+</html>

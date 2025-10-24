@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
     <title>Document</title>
+    <!-- Firebase SDKs -->
+   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%); min-height:100vh; font-family:'Inter', 'Poppins', Arial, sans-serif;">
     <div class="card" style="margin-top:48px;">
@@ -21,6 +24,6 @@
             <div id="pay">PAY</div>
         </div>
     </div>
+    <script type="module" src="../modules/checkout-firebase.js"></script>
 </body>
-<script type="module" src="../modules/checkout.js"></script>
 </html>

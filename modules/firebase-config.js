@@ -1,14 +1,13 @@
 // Firebase Configuration for PIDDZ Pizza Delivery App
 
 const firebaseConfig = {
-apiKey: "AIzaSyDkL_k8v_Ww-jw7WLqfz_sVUsDx8ZmIKqA",
-  authDomain: "piddz-pizza-app.firebaseapp.com",
-  databaseURL: "https://piddz-pizza-app-default-rtdb.firebaseio.com",
-  projectId: "piddz-pizza-app",
-  storageBucket: "piddz-pizza-app.firebasestorage.app",
-  messagingSenderId: "124385002957",
-  appId: "1:124385002957:web:8664adec2ea060f30a3084",
-  measurementId: "G-HS72NM5CFN"
+  apiKey: "AIzaSyApqjyVL2JQkSMO_GqDArjbo19_h5RxP0g",
+  authDomain: "piddz-pizza-application.firebaseapp.com",
+  databaseURL: "https://piddz-pizza-application-default-rtdb.firebaseio.com",
+  projectId: "piddz-pizza-application",
+  storageBucket: "piddz-pizza-application.firebasestorage.app",
+  messagingSenderId: "380795616409",
+  appId: "1:380795616409:web:27a609a76c35d22076cc08"
 };
 
 // Initializes Firebase
