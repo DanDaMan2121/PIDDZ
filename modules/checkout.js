@@ -1,10 +1,12 @@
+import { saveOrder } from './firebase.js';
+
 // import { printtList, printsOptions } from '../app.js';
 let tainer = document.getElementById('tainer');
 let orderMore = document.getElementById('orderMore');
 let totalSumDiv = document.getElementById('totalSum');
 let tax = document.getElementById('tax');
 let afterTax = document.getElementById('afterTax');
-let pay = document.getElementById('payContainer');
+let payContainer = document.getElementById('payContainer');
 
 let setOptions = (myPizza, sOptions) => {
     if (myPizza.quantity > 1) {
@@ -124,18 +126,64 @@ payMsgDiv.id = 'payMsg';
 payContainer.appendChild(payMsgDiv);
 
 let processing = false;
-payBtn.addEventListener('click', () => {
+payBtn.addEventListener('click', async () => {
     if (processing) return;
     processing = true;
+    const saveCloudCheckbox = document.getElementById('saveCloud');
+    const cloudMsg = document.getElementById('cloudMsg');
     payMsgDiv.innerHTML = '<span style="color:#16a34a; font-weight:600;">Processing Payment...</span>';
     payBtn.style.opacity = '0.6';
     payBtn.style.pointerEvents = 'none';
-    setTimeout(() => {
+    if (cloudMsg) cloudMsg.innerText = '';
+
+    setTimeout(async () => {
         const orderNum = Math.floor(100000 + Math.random() * 900000);
         payMsgDiv.innerHTML = `<span style=\"color:#22c55e; font-weight:700;\">Order Placed!</span><br>Order #<b>${orderNum}</b>`;
         payBtn.innerText = 'PAID';
         payBtn.style.background = '#22c55e';
         payBtn.style.color = '#fff';
+
+        // Build order object
+        try {
+            const rawCart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const items = rawCart.map(i => JSON.parse(i));
+
+            // compute totals
+            let foodCost = 0;
+            items.forEach(p => {
+                let cost = 0;
+                const quantity = p.quantity || 1;
+                if (p.size == 'Small (10")') cost = 8.99 * quantity;
+                else if (p.size == 'Medium (12")') cost = 10.99 * quantity;
+                else cost = 12.99 * quantity;
+                foodCost += cost;
+            });
+            const taxAmount = +(0.07 * foodCost).toFixed(2);
+            const total = +(1.07 * foodCost).toFixed(2);
+
+            const orderObj = {
+                orderNum,
+                items,
+                totals: { foodCost, tax: taxAmount, total },
+                status: 'placed',
+                createdAt: new Date().toISOString()
+            };
+
+            // If user asked to save to cloud, try saving (uses placeholder config)
+            if (saveCloudCheckbox && saveCloudCheckbox.checked) {
+                if (cloudMsg) cloudMsg.innerText = 'Saving order to cloud...';
+                try {
+                    const docId = await saveOrder(orderObj);
+                    if (cloudMsg) cloudMsg.innerHTML = `Saved to cloud (id: <b>${docId}</b>)`;
+                } catch (err) {
+                    if (cloudMsg) cloudMsg.innerText = 'Failed to save to cloud. Check console for details.';
+                }
+            }
+
+        } catch (err) {
+            console.error('Error building/saving order', err);
+        }
+
         window.sessionStorage.setItem('cart', null);
         setTimeout(() => {
             window.location.href = '../index.html';
