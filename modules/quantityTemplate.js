@@ -1,6 +1,6 @@
 
-
-export const quantityTemplate = (name, container, objectName) => {
+import { getItemInCart, setItemInCart } from "./cartMethods.js";
+export const quantityTemplate = (container, PID, name) => {
     let quantitySpan = document.createElement('span');
     quantitySpan.textContent = name;
 
@@ -11,13 +11,13 @@ export const quantityTemplate = (name, container, objectName) => {
     quantityContainer.className = 'quantityContainer';
 
     // set state
-    let myObject = JSON.parse(localStorage.getItem(objectName));
+    let myObject = getItemInCart(PID);
 
     let buttonPlus = document.createElement('button');
     buttonPlus.textContent = '+';
     buttonPlus.style.padding = '5px';
     buttonPlus.addEventListener('click', () => {
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID);
         let pizzaQantitiy = document.getElementById('pizzaQuantity');
         if (quantity.textContent < 99) {
             quantity.textContent = parseInt(quantity.textContent) + 1;
@@ -26,8 +26,7 @@ export const quantityTemplate = (name, container, objectName) => {
         }
         //update object and visual
         pizzaQantitiy.textContent = (myObject.quantity > 1) ? `(${myObject.quantity})` : myObject.quantity;
-        const myObjectAsString = JSON.stringify(myObject);
-        localStorage.setItem(objectName, myObjectAsString);
+        setItemInCart(PID, myObject);
 
     });
 
@@ -39,7 +38,7 @@ export const quantityTemplate = (name, container, objectName) => {
     buttonMinus.textContent = '-';
     buttonMinus.style.padding = '5px';
     buttonMinus.addEventListener('click', () => {
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID)
         let pizzaQantitiy = document.getElementById('pizzaQuantity');
         if (quantity.textContent > 1) {
             quantity.textContent = quantity.textContent - 1;
@@ -47,8 +46,7 @@ export const quantityTemplate = (name, container, objectName) => {
         }
         //update object and visual
         pizzaQantitiy.textContent = (myObject.quantity > 1) ? `(${myObject.quantity})` : '';
-        const myObjectAsString = JSON.stringify(myObject);
-        localStorage.setItem(objectName, myObjectAsString);
+        setItemInCart(PID, myObject);
     })
 
     quantityContainer.append(buttonMinus, quantity, buttonPlus);

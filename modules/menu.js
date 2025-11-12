@@ -1,4 +1,5 @@
 // Array of all menu items with details
+import { setItemInCart, getCart, pushCart } from "./cartMethods.js";
 const menuItems = [
     {
         id: 1,
@@ -79,7 +80,7 @@ const menuItems = [
     }
 ];
 
-let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+let cart = getCart();
 
 // Render menu
 function renderMenu(filter = 'all') {
@@ -119,19 +120,15 @@ function renderMenu(filter = 'all') {
 // Handles item action
 function handleItemAction(id, category) {
     if (category === 'pizza') {
+        localStorage.setItem('newPizza', true);
         window.location.href = './pizzaBuilder.html';
     } else {
-        const item = menuItems.find(i => i.id === id);
-        addToCart(item);
+        let item = menuItems.find(i => i.id === id);
+        item.id = getCart().length;
+        pushCart(item);
+        alert(`${item.name} was added to your cart!`);
+        console.log(getCart());
     }
-}
-
-// Adds to the cart
-function addToCart(item) {
-    cart.push(item);
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    alert(item.name + ' added to cart!');
 }
 
 // Updates the cart count

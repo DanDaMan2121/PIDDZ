@@ -1,6 +1,6 @@
 import { saveOrder } from './firebase.js';
+import { getCart, getItemInCart, removeItemInCart} from './cartMethods.js';
 
-// import { printtList, printsOptions } from '../app.js';
 let tainer = document.getElementById('tainer');
 let orderMore = document.getElementById('orderMore');
 let totalSumDiv = document.getElementById('totalSum');
@@ -56,8 +56,8 @@ let generateCart = (cartList) => {
 
     let i = 0
 
-    for (i = 0; i < length; i++) {
-        const currntItem = JSON.parse(cartList[i]);
+    for (i; i < length; i++) {
+        const currntItem = getItemInCart(i);
 
         let container = document.createElement('div');
         container.style.background = '#f8fafc';
@@ -69,29 +69,73 @@ let generateCart = (cartList) => {
         container.style.flexDirection = 'column';
         container.style.gap = '6px';
 
+        
+
         let sOption = document.createElement('div');
         sOption.className = 'sOption';
         sOption.style.fontWeight = '700';
         sOption.style.fontSize = '1.08rem';
         sOption.style.display = 'flex';
         sOption.style.alignItems = 'center';
-        sOption.innerHTML = '🍕 ' + sOption.innerHTML;
-        cost = setOptions(currntItem, sOption);
-        totalSum = totalSum + cost;
 
         let tlist = document.createElement('div');
-        tlist.className = 'tList';
-        tlist.style.color = '#64748b';
-        tlist.style.fontSize = '0.98rem';
-        setList(currntItem, tlist);
+
+
+        const modContainer = document.createElement('div');
+        modContainer.className = 'modContainer';
+        let editButton = document.createElement('button');
+        let removeButton = document.createElement('button');
+        removeButton.textContent = 'remove';
+        editButton.textContent = 'edit';
+        modContainer.append(editButton, removeButton)
+
+
+        if (Object.keys(currntItem)[0] == 'PID') {
+            console.log('pizza');
+            sOption.innerHTML = '🍕 ' + sOption.innerHTML;
+            cost = setOptions(currntItem, sOption);
+
+            tlist.className = 'tList';
+            tlist.style.color = '#64748b';
+            tlist.style.fontSize = '0.98rem';
+            setList(currntItem, tlist);
+
+            editButton.addEventListener('click', () => {
+                localStorage.setItem('editPizza', currntItem.PID);
+                window.location.href = './pizzaBuilder.html';
+            })
+        } else {
+            sOption.textContent = currntItem.name;
+            cost = currntItem.price;
+        }
 
         let price = document.createElement('div');
+        let priceValue = document.createElement('span');
+        price.append(priceValue, modContainer);
+        price.style.display = 'flex';
         price.style.fontWeight = '700';
         price.style.fontSize = '1.08rem';
         price.style.color = '#16a34a';
         price.style.marginTop = '2px';
-        price.innerText = `$${cost.toFixed(2)}`;
+        price.style.justifyContent = 'space-between';
+        priceValue.innerText = `$${cost.toFixed(2)}`;
+        removeButton.addEventListener('click', () => {
+            console.log(getCart());
+            if (Object.keys(currntItem)[0] == 'PID') {
+                removeItemInCart(currntItem.PID);
+            } else {
+                removeItemInCart(currntItem.id);
+            }
+            container.remove();
+            console.log(getCart());
+        });
+        
+        
+        // totalSum = totalSum + cost;
 
+
+
+        totalSum = totalSum + cost;
         container.append(sOption);
         container.append(tlist);
         container.append(price);
@@ -102,8 +146,9 @@ let generateCart = (cartList) => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    let cart = JSON.parse(sessionStorage.getItem('cart'));
-    let totalSum = generateCart(cart);
+    let myCart = getCart();
+    console.log(myCart);
+    let totalSum = generateCart(myCart);
     totalSumDiv.innerHTML = `Food Cost: $${totalSum}`;
     tax.innerHTML = `Tax: $${(.07 * totalSum).toFixed(2)}`;
     afterTax.innerHTML = `Total: ${(1.07 * totalSum).toFixed(2)}`;

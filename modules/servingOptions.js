@@ -1,9 +1,10 @@
-export const servingOptionsTemplate = (title, optionList, container, objecName) => {
+import { getItemInCart, setItemInCart } from "./cartMethods.js";
+export const servingOptionsTemplate = (optionList, container, PID, title) => {
     let optionContainer = document.createElement('div');
     optionContainer.className = 'optionContainer';
 
     let optionTitle = document.createElement('span');
-    let myObject = JSON.parse(localStorage.getItem(objecName));
+    let myObject = getItemInCart(PID);
     optionTitle.textContent = title;
 
 
@@ -32,10 +33,9 @@ export const servingOptionsTemplate = (title, optionList, container, objecName) 
         selection.className = 'selection';
         selection.textContent = optionList[i];
         selection.addEventListener('click', () => {
-            let myObject = JSON.parse(localStorage.getItem(objecName));
+            let myObject = getItemInCart(PID);
             myObject[title] = selection.textContent;
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objecName, myObjectAsString);
+            setItemInCart(PID, myObject);
 
             optionBtn.textContent = selection.textContent;
             hiddenContainer.style.display = 'none';

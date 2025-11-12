@@ -1,8 +1,10 @@
+import { getItemInCart, setItemInCart } from "./cartMethods.js";
 const quantityArray = ['Light', 'Normal', 'Extra'];
 
-const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
+const sauceOptionsTemplate = (sauce, container, PID, setName) => {
     // current object
-    let myObject = JSON.parse(localStorage.getItem(objectName));
+    let myObject = getItemInCart(PID);
+    console.log(PID);
     let mySauce = myObject.sauce
     // console.log(mySauce[0]);
     
@@ -56,25 +58,23 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
 
     buttonMinus.addEventListener('click', function () {
         let index = quantityArray.indexOf(quantity.textContent)
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID);
         if (index > 0) {
             
             quantity.textContent = quantityArray[index - 1];
             myObject.sauce[1] = quantity.textContent;
         }
-        const myObjectAsString = JSON.stringify(myObject);
-        localStorage.setItem(objectName, myObjectAsString);    
+        setItemInCart(PID, myObject)   
     });
     buttonPlus.addEventListener('click', function () {
         let index = quantityArray.indexOf(quantity.textContent)
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID);
         if (index < qLength) {
             quantity.textContent = quantityArray[index + 1];
             myObject.sauce[1] = quantity.textContent;
 
         }
-        const myObjectAsString = JSON.stringify(myObject);
-        localStorage.setItem(objectName, myObjectAsString);
+        setItemInCart(PID, myObject);
     });
 
     quantityContainer.append(buttonMinus, quantity, buttonPlus);
@@ -120,11 +120,10 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
         pizzaSauce.textContent = newSauce;
         
         //update object and visual
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID);
         myObject.sauce[0] = newSauce;
         myObject.sauce[1] = newQuantity;
-        const myObjectAsString = JSON.stringify(myObject);
-        localStorage.setItem(objectName, myObjectAsString);
+        setItemInCart(PID, myObject);
 
     })
 
@@ -135,12 +134,12 @@ const sauceOptionsTemplate = (setName, sauce, container, objectName) => {
 
 
 
-export const populateSauceOptions = (setName, sauceList, container, objectName) => {
+export const populateSauceOptions = (sauceList,  container, PID, setName) => {
     let i = 0;
     const listLength = sauceList.length;
     for (i; i < listLength; i++ ) {
     
-        sauceOptionsTemplate(setName, sauceList[i], container, objectName);
+        sauceOptionsTemplate(sauceList[i], container, PID, setName);
 
     }
 }

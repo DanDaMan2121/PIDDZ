@@ -1,6 +1,10 @@
+    import { getItemInCart, setItemInCart } from "./cartMethods.js";
+    
     const quantityArray = ['Light', 'Normal', 'Extra'];
     
-    const toppingTemplate = (name, color, container, objectName) => {
+
+
+    const toppingTemplate = (name, container, PID, color) => {
         let containerDiv = document.createElement('div');
         containerDiv.className = 'templateContainer';
         let divA = document.createElement('div');
@@ -10,7 +14,7 @@
         //divB.id = `divB${name}`;
 
 
-        let myObject = JSON.parse(localStorage.getItem(objectName));
+        let myObject = getItemInCart(PID);
         const toppingsLength = myObject.toppings.length
         let myIndex = -1;
         let currentTopping = null;
@@ -45,7 +49,7 @@
         button1.className = name;
         button1.textContent = 'left';
         button1.addEventListener('click', function () {
-            let myObject = JSON.parse(localStorage.getItem(objectName));
+            let myObject = getItemInCart(PID);
             let changedToppingArray = myObject.toppings;
             const topping = event.target.className
             // console.log(topping);            
@@ -55,8 +59,8 @@
             currentTopping[1] = 'left';
             myObject.toppings[myIndex] = currentTopping;
             // console.log(myObject.toppings[myIndex]);
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objectName, myObjectAsString); 
+            setItemInCart(PID, myObject); 
+
             // alert('button1 clicked');
             button1.style.color = color;
             button2.style.color = 'black';
@@ -66,7 +70,7 @@
         button2.className = name;
         button2.textContent = 'whole';
         button2.addEventListener('click', function () {
-            let myObject = JSON.parse(localStorage.getItem(objectName));
+            let myObject = getItemInCart(PID);
             let changedToppingArray = myObject.toppings;
             const topping = event.target.className
             // console.log(topping);            
@@ -75,9 +79,7 @@
             const myIndex = changedToppingArray.indexOf(currentTopping);
             currentTopping[1] = 'whole';
             myObject.toppings[myIndex] = currentTopping;
-            // console.log(myObject.toppings[myIndex]);
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objectName, myObjectAsString); 
+            setItemInCart(PID, myObject); 
             // alert('button2 clicked');
             button1.style.color = 'black';
             button2.style.color = color;
@@ -87,7 +89,7 @@
         button3.className = name;
         button3.textContent = 'right';
         button3.addEventListener('click', function (event) {
-            let myObject = JSON.parse(localStorage.getItem(objectName));
+            let myObject = getItemInCart(PID);
             let changedToppingArray = myObject.toppings;
             const topping = event.target.className
             // console.log(topping);            
@@ -96,9 +98,8 @@
             const myIndex = changedToppingArray.indexOf(currentTopping);
             currentTopping[1] = 'right';
             myObject.toppings[myIndex] = currentTopping;
-            // console.log(myObject.toppings[myIndex]);
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objectName, myObjectAsString); 
+
+            setItemInCart(PID, myObject); 
             
 
             button1.style.color = 'black';
@@ -129,7 +130,7 @@
 
         button4.addEventListener('click', function (event) {
             let index = quantityArray.indexOf(quantity.textContent)
-            let myObject = JSON.parse(localStorage.getItem(objectName));
+            let myObject = getItemInCart(PID);
             const topping = event.target.className
             let changedToppingArray = myObject.toppings;
             let currentTopping = changedToppingArray.find(toppings => toppings.includes(topping));
@@ -137,13 +138,11 @@
                 quantity.textContent = quantityArray[index - 1];
                 currentTopping[2] = quantity.textContent;
             }
-            // console.log(myObject);
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objectName, myObjectAsString);    
+            setItemInCart(PID, myObject);  
         });
         button5.addEventListener('click', function (event) {
             let index = quantityArray.indexOf(quantity.textContent)
-            let myObject = JSON.parse(localStorage.getItem(objectName));
+            let myObject = getItemInCart(PID);
             const topping = event.target.className
             let changedToppingArray = myObject.toppings;
             let currentTopping = changedToppingArray.find(toppings => toppings.includes(topping));
@@ -151,9 +150,7 @@
                 quantity.textContent = quantityArray[index + 1];
                 currentTopping[2] = quantity.textContent;
             }
-            // console.log(myObject);
-            const myObjectAsString = JSON.stringify(myObject);
-            localStorage.setItem(objectName, myObjectAsString);    
+            setItemInCart(PID, myObject);    
         });
 
         quantityContainer.append(button4, quantity, button5);
@@ -167,7 +164,7 @@
 
 
         buttonA.addEventListener('click', function () {
-            let changedObject = JSON.parse(localStorage.getItem(objectName));
+            let changedObject = getItemInCart(PID);
             // console.log(changedObject);
             let changedToppingArray = changedObject.toppings;
             const currentTopping = changedToppingArray.find(topping => topping.includes(name));
@@ -198,8 +195,7 @@
             //update topping data and visual
             let pizzaToppings = document.getElementById('pizzaToppings');
             pizzaToppings.textContent = printToppings(changedObject);
-            const myObjectAsString = JSON.stringify(changedObject);
-            localStorage.setItem(objectName, myObjectAsString);
+            setItemInCart(PID, changedObject); 
 
 
         });
@@ -241,9 +237,9 @@
     }
 
 
-    export const populateToppings = (toppingList, color, container, objectName) => {
+    export const populateToppings = (toppingList, container, objectName, color) => {
         const length = toppingList.length;
             for (let i = 0; i < length; i++) {
-                toppingTemplate(toppingList[i], color, container, objectName);
+                toppingTemplate(toppingList[i], container, objectName, color);
             }
     }
