@@ -1,0 +1,19 @@
+# PIDDZ Pizza Delivery App - Selenium Testing Dependencies
+# Updated for Windows compatibility
+
+# Core testing framework - Use latest Selenium 4 with built-in driver management
+selenium>=4.15.0
+
+# Pytest
+pytest>=7.4.0
+pytest-html>=4.1.0
+
+# WebDriver manager - helps download correct drivers
+webdriver-manager>=4.0.1
+
+# Additional utilities
+pytest-xdist>=3.5.0
+pytest-timeout>=2.2.0
+
+# For better assertions (optional)
+assertpy>=1.1
