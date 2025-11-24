@@ -3,11 +3,19 @@
     import { populateSauceOptions } from './sauceOptions.js';
     import { servingOptionsTemplate } from './servingOptions.js';
     import { quantityTemplate } from './quantityTemplate.js';
+    import { readUserData } from './firebase.js';
+    import { getCart, getItemInCart, pushCart, setItemInCart} from './cartMethods.js'; 
 
-    const container1 = document.getElementById('container1');
-    const container2 = document.getElementById('container2');
+    const meatContainer = document.getElementById('container1');
+    const vegetableContainer = document.getElementById('container2');
+    const sauceContainer = document.getElementById('sauceContainer');
+    const servingContainer = document.getElementById('servingContainer');
 
-    container2.style.display = 'none';
+
+    vegetableContainer.style.display = 'none';
+
+    const pizzaPath = "Pizza's/Pizza";
+    // console.log(readUserData('Pizza', 'sauceOptions'));
 
     let meatBtn = document.getElementById('Meat');
     let meatColor = 'brown'
@@ -15,16 +23,15 @@
     let vegBtn = document.getElementById('Vegtables');
     let vegColor = 'green';
 
-    let sauceContainer = document.getElementById('sauceContainer');
-    let sauceOptions = ['Tomato Sauce', 'Honey BBQ Sauce', 'Garlic Parmesan Sauce', 'Alfredo Sauce', 'Ranch'];
 
-    // needs to put these items in a database in order to pull the toppings for this project
-    let meatTopping = ['Ham', 'Beef', 'Pepperoni', 'Italian Sausage', 'Premium Chicken', 'Bacon', 'Philly Steak'];
-    let vegTopping = ['pepper', 'mushrooms', 'pumpkin', 'lettuce'];
-
-    const servingContainer = document.getElementById('servingContainer');
-    let optionList = ['Hand tossed', 'New York Style', 'Panned'];
-    let pizzaSize = [ 'Small (10")', 'Medium (12")', 'Large (14")'];
+    function addIngredients(myObject) {
+        let myList = [];
+        for (const key in myObject) {
+            // console.log(key);
+            myList.push(key);
+        }
+        return myList;
+    }
 
     meatBtn.addEventListener('click', () => {
         meatBtn.style.color = meatColor;
@@ -68,31 +75,62 @@
         container.append(sizeAndCrust, sauceAndToppings);
 
     }
-   
 
-    export const loadPizzaBuilder = () => {
-        const myCart = JSON.parse(sessionStorage.getItem('cart'));
-        let myPizza = JSON.parse(localStorage.getItem('pizza'));
-        let pizzaSum = document.getElementById('pizzaSummary');
-        console.log(pizzaSum);
+    export async function loadMenuOption(option) {
+        const optionMenu = await readUserData(pizzaPath, option);
+        const myOptionList = addIngredients(optionMenu);
+        // console.log(myOptionList);
+        return myOptionList;
 
-        if (myPizza === null) {
+    }
+
+
+    export async function loadPizzaBuilder() {
+        let myCart = getCart();
+        const newPizza = localStorage.getItem('newPizza');
+        let PID = null
+
+        if (newPizza == 'true') {
+            localStorage.setItem('newPizza', false);
+            localStorage.setItem('addNewPizza', true);
             const length = myCart.length;
-            let storePizza = new Pizza();
-            storePizza.PID = length;
-            const storePizzaAsString = JSON.stringify(storePizza);
-
-            localStorage.setItem('pizza', storePizzaAsString);
+            let objectPizza = new Pizza();
+            PID = length;
+            objectPizza.PID = length;
+            localStorage.setItem('editPizza', PID);
+            pushCart(objectPizza);
             console.log('New Pizza');
+        } else {
+            PID = parseInt(localStorage.getItem('editPizza'));
+            console.log(PID)
+
         }
-        let myObject = JSON.parse(localStorage.getItem('pizza'));
+
+        console.log(myCart);
+        let myObject = getItemInCart(PID);
         console.log(myObject);
-        populateToppings(meatTopping, meatColor, container1, 'pizza');
-        populateToppings(vegTopping, vegColor, container2, 'pizza');
-        populateSauceOptions('buttonGroup', sauceOptions, sauceContainer, 'pizza');
-        servingOptionsTemplate('crust', optionList, servingContainer, 'pizza');
-        servingOptionsTemplate('size', pizzaSize, servingContainer, 'pizza');
-        quantityTemplate('quantity', servingContainer, 'pizza');
+
+        let pizzaSum = document.getElementById('pizzaSummary');
+
+        //meat toppings menu
+        populateToppings(await loadMenuOption('meatToppings'), meatContainer, PID, meatColor);
+
+        //vegetable toppings menu
+        populateToppings(await loadMenuOption('vegtableToppings'), vegetableContainer, PID, vegColor);
+
+        //sauce options menu
+        populateSauceOptions(await loadMenuOption('sauceOptions'), sauceContainer, PID, 'buttonGroup');
+
+        //crust options menu  
+        servingOptionsTemplate(await loadMenuOption('crustOptions'), servingContainer, PID, 'crust');
+        
+        //size options menu
+        servingOptionsTemplate(await loadMenuOption('sizeOptions'), servingContainer, PID, 'size');
+
+        //quantiy 
+        quantityTemplate(servingContainer, PID, 'quantity');
+
+        //shows the pizza summary
         printSummary(pizzaSum, myObject);
 
     };
@@ -100,11 +138,8 @@
     const checkoutBtn = document.getElementById('checkout');
 
     checkoutBtn.addEventListener('click', () => {
-        let myCart = JSON.parse(sessionStorage.getItem('cart'));
-        const myPizza = localStorage.getItem('pizza');
-        myCart.push(myPizza)
-        const myCartAsString = JSON.stringify(myCart);
-        sessionStorage.setItem('cart', myCartAsString);
+        // const PID = localStorage.getItem('editPizza');
+        localStorage.setItem('addNewPizza', false);
 
         window.location.href = './checkout.html';
     });
