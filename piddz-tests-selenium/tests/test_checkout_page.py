@@ -106,8 +106,18 @@ class TestCheckoutWithItems:
         }
         
         # Add to cart
-        cart = [json.dumps(pizza_item)]
-        driver.execute_script(f"sessionStorage.setItem('cart', '{json.dumps(cart)}')")
+        driver.execute_script("""
+        const pizza = {
+        PID: 0,
+        crust: "Hand Tossed",
+        size: "Medium (12\\")",
+        quantity: 1,
+        sauce: ["Tomato Sauce", "Normal"],
+        toppings: [["Pepperoni", "whole", "Normal"]]
+        };
+        const cart = [JSON.stringify(pizza)];
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        """)
         
         # Navigate to checkout
         driver.get(base_url + "/pages/checkout.html")
