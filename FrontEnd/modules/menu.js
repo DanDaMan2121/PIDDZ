@@ -1,5 +1,11 @@
 // Array of all menu items with details
 import { setItemInCart, getCart, pushCart } from "./cartMethods.js";
+import { firebaseConfig } from "./firebase-config.js";
+import firebaseService  from "./firebase-service.js";
+
+// const fb = new FirebaseService();
+// console.log(fb.getMenuItems());
+
 const menuItems = [
     {
         id: 1,
@@ -155,7 +161,8 @@ document.getElementById('cartBadge').addEventListener('click', () => {
 });
 
 // To Initialize
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log(await firebaseService.getMenuItems());
     renderMenu();
     updateCartCount();
 });

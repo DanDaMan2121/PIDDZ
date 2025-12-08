@@ -1,13 +1,16 @@
 // Firebase Configuration for PIDDZ Pizza Delivery App
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getDatabase, ref, set, remove, onValue, child, get, update, push} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApqjyVL2JQkSMO_GqDArjbo19_h5RxP0g",
-  authDomain: "piddz-pizza-application.firebaseapp.com",
-  databaseURL: "https://piddz-pizza-application-default-rtdb.firebaseio.com",
-  projectId: "piddz-pizza-application",
-  storageBucket: "piddz-pizza-application.firebasestorage.app",
-  messagingSenderId: "380795616409",
-  appId: "1:380795616409:web:27a609a76c35d22076cc08"
+    apiKey: "AIzaSyCkINLqzwllGDnEYTjK3TA4STSgwgs438c",
+    authDomain: "piddz-5de75.firebaseapp.com",
+    databaseURL: "https://piddz-5de75-default-rtdb.firebaseio.com",
+    projectId: "piddz-5de75",
+    storageBucket: "piddz-5de75.firebasestorage.app",
+    messagingSenderId: "1006827305493",
+    appId: "1:1006827305493:web:064d16ab5f5bb80e16ec1c",
+    measurementId: "G-9YM8L6TS3X"
 };
 
 // Initializes Firebase
@@ -16,8 +19,8 @@ let database;
 
 function initializeFirebase() {
     try {
-        app = firebase.initializeApp(firebaseConfig);
-        database = firebase.database();
+        app = initializeApp(firebaseConfig);
+        database = getDatabase();
         console.log("Firebase initialized successfully");
         return true;
     } catch (error) {
@@ -27,4 +30,4 @@ function initializeFirebase() {
 }
 
 // Export for use in other modules
-export { firebaseConfig, initializeFirebase, database };
+export { firebaseConfig, initializeFirebase, database, push, set, ref, get, child};
