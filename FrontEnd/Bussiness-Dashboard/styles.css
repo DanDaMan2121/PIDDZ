@@ -1,0 +1,68 @@
+#menuContainer {
+    /* display: block; */
+    display: flex;
+    justify-content: space-around;
+    /* flex-direction: row; */
+}
+
+#Other, #pizzaContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.modContainer, .ingredientDiv {
+    display: flex;
+    justify-items: space-between;
+    /* flex-direction: column; */
+    /* width: ; */
+}
+
+.optionSpan {
+    color: brown;
+}
+
+.optionContainer {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+}
+
+.iContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3px;
+}
+
+.intReq {
+    width: 20px;
+}
+/* 
+#menuContainer {
+    height: 100vh;
+    width: 100vw;
+    background-color: blue;
+} */
+
+body {
+    background-color: rgb(3, 112, 171);
+}
+
+#editContainer, #editContainers, #createContainer, #menuListContainer {
+    /* margin: 10px; */
+    padding: 5px;
+    width: 30vw;
+    height: 90vh;
+    background-color: white;
+
+}
+#addItemDiv { 
+    /* position: absolute; */
+    bottom: 0px;
+    width: 100%;
+}
+
+#templateFrame {
+    height: 90%;
+    overflow-y: auto;
+    /* overflow-y: visible; */
+}
