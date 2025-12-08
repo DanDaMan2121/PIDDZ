@@ -1,7 +1,7 @@
 // Firebase Database Service for PIDDZ Pizza App
 
 
-import { database, initializeFirebase, push, set, ref, get, child} from './firebase-config.js';
+import { database, initializeFirebase, push, set, ref, get, onValue, serverTimestamp} from './firebase-config.js';
 
 export class FirebaseService {
 
@@ -17,30 +17,32 @@ export class FirebaseService {
      * @returns {Promise<string>} - Order ID
      */
     async saveOrder(orderData) {
-        try {
-            const ordersRef = ref(database, 'StoreOrders'); // reference to the orders table
-            const newOrderRef = push(ordersRef);
-            
-            const order = {
-                orderId: newOrderRef.key,
-                items: orderData.items,
-                location: orderData.location,
-                totalCost: orderData.totalCost,
-                tax: orderData.tax,
-                totalWithTax: orderData.totalWithTax,
-                status: 'pending',
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                estimatedTime: '30-45 minutes'
-            };
-            
-            await set(ordersRef, order);
+        
+        const ordersRef = ref(database, 'StoreOrders'); // reference to the orders table
+        const newOrderRef = push(ordersRef);
+        
+        const order = {
+            orderId: newOrderRef.key,
+            items: orderData.items,
+            location: orderData.location,
+            totalCost: orderData.totalCost,
+            tax: orderData.tax,
+            totalWithTax: orderData.totalWithTax,
+            status: 'pending',
+            timestamp: serverTimestamp(),
+            estimatedTime: '30-45 minutes'
+        };
+        
+        await set(ordersRef, order)
+        .then(() => {
             console.log('Order saved successfully:', order.orderId);
-            return order.orderId;
+            return order.orderId;;
+        })
+        .catch ((error) => {
+            console.error(`Error setting node: ${error}`);
+            return false;
+        });
             
-        } catch (error) {
-            console.error('Error saving order:', error);
-            throw error;
-        }
     }
     
     /**
@@ -48,30 +50,23 @@ export class FirebaseService {
      * @returns {Promise<Array>} - Array of all orders
      */
     async getAllOrders() {
-        try {
-            const ordersRef = ref(database, 'StoreOrders');
-            const snapshot = await ordersRef.once('value');
-            
-            if (!snapshot.exists()) {
-                return [];
+        
+        const ordersRef = ref(database, 'StoreOrders');
+        let data = {}
+        
+        await get(ordersRef)
+        .then((snapshot) => {
+            if (snapshot.exists()){
+                data = snapshot.val();
+            } else {
+                console.log('No data available');
             }
-            
-            const orders = [];
-            snapshot.forEach((childSnapshot) => {
-                orders.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                });
-            });
-            
-            // Sorts this by timestamp (newest first)
-            orders.sort((a, b) => b.timestamp - a.timestamp);
-            return orders;
-            
-        } catch (error) {
-            console.error('Error fetching orders:', error);
-            throw error;
-        }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        
+        return data;
     }
     
     /**
@@ -80,20 +75,22 @@ export class FirebaseService {
      * @returns {Promise<Object>} - Order data
      */
     async getOrder(orderId) {
-        try {
-            const orderRef = ref(database, `StoreOrders/${orderId}`);
-            const snapshot = await orderRef.once('value');
-            
-            if (!snapshot.exists()) {
-                throw new Error('Order not found');
+    
+        const orderRef = ref(database, `StoreOrders/${orderId}`);
+        let order = {}
+        await get(orderRef)
+        .then((snapshot) => {
+            if (snapshot.exists()){
+                order = snapshot.val();
+            } else {
+                console.log('No data available');
             }
-            
-            return snapshot.val();
-            
-        } catch (error) {
-            console.error('Error fetching order:', error);
-            throw error;
-        }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        
+        return order;
     }
     
     /**
@@ -103,62 +100,76 @@ export class FirebaseService {
      * @returns {Promise<void>}
      */
     async updateOrderStatus(orderId, status) {
-        try {
-            const orderRef = ref(database, `StoreOrders/${orderId}`);
-            await orderRef.update({
-                status: status,
-                lastUpdated: firebase.database.ServerValue.TIMESTAMP
-            });
+         
+        const orderRef = ref(database, `StoreOrders/${orderId}`);
+        await update(orderRef, {
+            status: status,
+            lastUpdated: timestamp
+        }).then(() => {
             console.log(`Order ${orderId} updated to ${status}`);
-            
-        } catch (error) {
-            console.error('Error updating order status:', error);
-            throw error;
-        }
+        }).catch((error) => {
+            console.log('Error updating order status', error);
+        });
+        
+        
     }
     
-    /**
+    /** 
      * Listen for real-time order updates
      * @param {Function} callback - Function to call when orders change
      * @returns {Function} - Unsubscribe function
      */
-    listenToOrders(callback) {
+    listenToOrders(callback) { // onvalue method
         const ordersRef = ref(database, 'StoreOrders');
         
-        ordersRef.on('value', (snapshot) => {
-            const orders = [];
-            snapshot.forEach((childSnapshot) => {
-                orders.push({
-                    id: childSnapshot.key,
-                    ...childSnapshot.val()
-                });
-            });
-            
+        const unsubscribe = onValue(ordersRef, (snapshot) => {
+            const data = snapshot.val();
+            console.log(data);
+            const orders = []
+            data.forEach((element) => {
+                orders.push(element);
+            }); 
             orders.sort((a, b) => b.timestamp - a.timestamp);
             callback(orders);
+        }, (error) => {
+            console.log('Error fetching data: ', error);
         });
         
+        // ordersRef.on('value', (snapshot) => {
+        //     const orders = [];
+        //     snapshot.forEach((childSnapshot) => {
+        //         orders.push({
+        //             id: childSnapshot.key,
+        //             ...childSnapshot.val()
+        //         });
+        //     });
+            
+        //     orders.sort((a, b) => b.timestamp - a.timestamp);
+        //     callback(orders);
+        // });
+        
         // Returns the unsubscribe function
-        return () => ordersRef.off('value');
+        return unsubscribe;
     }
     
     // Menu Management 
     
-    /**
+    /** 
      * Save menu items to Firebase (for initial setup)
      * @param {Array} menuItems - Array of menu items
      * @returns {Promise<void>}
      */
     async saveMenuItems(menuItems) {
-        try {
+        
             const menuRef = ref(database, 'StoreMenu');
-            await menuRef.set(menuRef, menuItems);
-            console.log('Menu items saved successfully');
-            
-        } catch (error) {
-            console.error('Error saving menu items:', error);
-            throw error;
-        }
+            await set(menuRef, menuItems)
+            .then(() => {
+                console.log('Menu items saved successfully');
+            })
+            .catch((error) => {
+                console.error('Error saving menu items:', error);
+            })
+                     
     }
     
     /**
@@ -169,17 +180,17 @@ export class FirebaseService {
     
         const menuRef = ref(database, 'StoreMenu');
         let data = {}
-        await get(menuRef).then((snapshot) => {
-        if (snapshot.exists()){
-        data = snapshot.val();
-        } else {
-        console.log('No data available');
-        }
+        await get(menuRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                data = snapshot.val();
+            } else {
+                console.log('No data available');
+            }
         }).catch((error) => {
             console.error(error);
-            // return false;
         });
-        // console.log(myMenuItems);
+
         return data;
     }
     
@@ -191,15 +202,16 @@ export class FirebaseService {
      * @returns {Promise<void>}
      */
     async saveStores(stores) {
-        try {
-            const storesRef = ref(database, 'StoreLocations');
-            await storesRef.set(stores);
-            console.log('Store locations saved successfully');
-            
-        } catch (error) {
-            console.error('Error saving stores:', error);
-            throw error;
-        }
+       
+        const storesRef = ref(database, 'StoreLocations');
+        await set(storesRef, stores)
+        .then(() => {
+            console.log('Store locations saved successfully');    
+        })
+        .catch((error) => {
+            console.log('Error saving stores', error);
+        });       
+                
     }
     
     /**
@@ -207,20 +219,20 @@ export class FirebaseService {
      * @returns {Promise<Array>} - Array of stores
      */
     async getStores() {
-        try {
-            const storesRef = ref(database, 'StoreLocations');
-            const snapshot = await storesRef.once('value');
-            
-            if (!snapshot.exists()) {
-                return [];
+        
+        const storesRef = ref(database, 'StoreLocations');
+        let data = {}
+        await get(storesRef).then((snapshot) => {
+            if (snapshot.exists()){
+                data = snapshot.val();
+            } else {
+                console.log('No data available');
             }
-            
-            return snapshot.val();
-            
-        } catch (error) {
-            console.error('Error fetching stores:', error);
-            throw error;
-        }
+        }).catch((error) => {
+            console.error(error);
+        });
+        
+        return data;
     }
 }
 
