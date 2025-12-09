@@ -3,17 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <title>Dynamic Buttons</title>
-
+    <title>Pizza Builder - PIDDZ</title>
     <link rel="stylesheet" href="../styles/style1.css">
     <link rel="stylesheet" href="../styles/style2.css">
     <link rel="stylesheet" href="../styles/style3.css">
     <link rel="stylesheet" href="../styles/styles.css">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+        <div style="padding: 20px 20px 0 20px; max-width: 800px; margin: 0 auto;">
+        <button onclick="window.location.href='./menu.html'" 
+                style="background: none; 
+                       border: none; 
+                       color: #16a34a; 
+                       font-size: 1.1rem; 
+                       cursor: pointer; 
+                       font-weight: 700;
+                       transition: all 0.3s;
+                       display: flex;
+                       align-items: center;
+                       gap: 5px;">
+            ← Back to Menu
+        </button>
+    </div>
     <div id="pizzaSummary"></div>
     <div class="card">
         <div id="servingContainer">
@@ -26,7 +37,7 @@
             <h3>TOPPINGS</h3>
             <div id="toppingSelector">
             <span id="Meat">Meat</span>
-            <span id="Vegtables">Vegtables</span>
+            <span id="Vegetables">Vegetables</span>
         </div>
             <div id="container1"></div>
             <div id="container2"></div>

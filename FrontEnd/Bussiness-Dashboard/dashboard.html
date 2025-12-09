@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIDDZ Business Dashboard</title>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>PIDDZ Business Dashboard</h1>
+        <div style="text-align: center; margin-top: 15px; margin-bottom: 10px;">
+        <a href="../index.html" 
+           style="padding: 10px 24px; 
+                  background: white; 
+                  color: #22c55e; 
+                  text-decoration: none; 
+                  border: 2px solid #22c55e;
+                  border-radius: 8px; 
+                  font-weight: 700;
+                  display: inline-block;
+                  transition: all 0.3s;
+                  font-size: 0.95rem;">
+            🏠 Back to Home
+        </a>
+    </div>
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="menu">Menu Management</button>
+            <button class="tab-btn" data-tab="orders">Orders</button>
+        </div>
+    </div>
+
+    <div class="tab-content active" id="menu-tab">
+        <div id="menuContainer">
+            <div id="menuListContainer">
+                <div class="section-header">MENU</div>
+                <div id="menuList"></div>
+            </div>
+            <div id="editContainer"></div>
+            <div id='createContainer'></div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="orders-tab">
+        <div class="orders-container">
+            <div class="section-header">ORDERS</div>
+            <div id="ordersList">
+                <p class="empty-state">No orders yet. Orders will appear here when customers place them.</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module" src="dashboard.js"></script>
+</html>

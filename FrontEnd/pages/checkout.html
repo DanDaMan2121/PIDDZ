@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
-    <title>Document</title>
-    <!-- Firebase SDKs -->
-   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <title>Order Summary - PIDDZ</title>
 </head>
 <body style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%); min-height:100vh; font-family:'Inter', 'Poppins', Arial, sans-serif;">
+    <div style="max-width: 900px; margin: 20px auto; padding: 0 20px;">
+        <button onclick="window.location.href='./menu.html'" 
+                style="background: none; 
+                       border: none; 
+                       color: #16a34a; 
+                       font-size: 1.1rem; 
+                       cursor: pointer; 
+                       font-weight: 700;">
+            ← Continue Shopping
+        </button>
+    </div>
     <div class="card" style="margin-top:48px;">
         <div class="card-header"><span class="icon">🧾</span>Order Summary</div>
         <div id="tainer"></div>
@@ -19,7 +27,6 @@
             <div id="tax" style="font-size:1rem;color:#64748b;"></div>
             <div id="afterTax" style="font-size:1.15rem;font-weight:700;color:#16a34a;"></div>
         </div>
-<!-- <<<<<<< HEAD   ?? --> 
         <div id="payContainer" style="margin:32px auto 0 auto; max-width:340px; background:#f8fafc; border-radius:14px; box-shadow:0 2px 8px rgba(34,197,94,0.06); padding:24px 18px 18px 18px; display:flex; flex-direction:column; align-items:center; gap:10px;">
             <div style="font-size:2.2rem; margin-bottom:12px; color:#22c55e;">💳</div>
             <label style="display:flex; align-items:center; gap:8px; font-size:0.95rem; color:#374151;">
@@ -31,6 +38,6 @@
         </div>
         </div>
     </div>
-    <script type="module" src="../modules/checkout-firebase.js"></script>
 </body>
+<script type="module" src="../modules/checkout.js"></script>
 </html>

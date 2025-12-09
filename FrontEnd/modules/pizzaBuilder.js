@@ -14,13 +14,13 @@
 
     vegetableContainer.style.display = 'none';
 
-    const pizzaPath = "Pizza's/Pizza";
+    const pizzaPath = "StoreTemplate's/Pizza";
     // console.log(readUserData('Pizza', 'sauceOptions'));
 
     let meatBtn = document.getElementById('Meat');
     let meatColor = 'brown'
     meatBtn.style.color = meatColor;
-    let vegBtn = document.getElementById('Vegtables');
+    let vegBtn = document.getElementById('Vegetables');
     let vegColor = 'green';
 
 
