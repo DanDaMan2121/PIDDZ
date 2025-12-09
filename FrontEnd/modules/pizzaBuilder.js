@@ -116,7 +116,7 @@
         populateToppings(await loadMenuOption('meatToppings'), meatContainer, PID, meatColor);
 
         //vegetable toppings menu
-        populateToppings(await loadMenuOption('vegtableToppings'), vegetableContainer, PID, vegColor);
+        populateToppings(await loadMenuOption('vegetableToppings'), vegetableContainer, PID, vegColor);
 
         //sauce options menu
         populateSauceOptions(await loadMenuOption('sauceOptions'), sauceContainer, PID, 'buttonGroup');

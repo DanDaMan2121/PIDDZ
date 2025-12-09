@@ -213,7 +213,7 @@ payBtn.addEventListener('click', async () => {
         };
         
         // Saves this to Firebase
-        const userId = await firebaseService.saveOrder(orderData);
+        const userId = await firebaseService.saveOrder(orderData); // not working properly
         
         // Shows the success message
         console.log(userId);

@@ -240,6 +240,8 @@
     export const populateToppings = (toppingList, container, objectName, color) => {
         const length = toppingList.length;
             for (let i = 0; i < length; i++) {
-                toppingTemplate(toppingList[i], container, objectName, color);
+                if (toppingList[i] != 'req') {
+                    toppingTemplate(toppingList[i], container, objectName, color);
+                } 
             }
     }

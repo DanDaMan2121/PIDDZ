@@ -138,8 +138,8 @@ export const populateSauceOptions = (sauceList,  container, PID, setName) => {
     let i = 0;
     const listLength = sauceList.length;
     for (i; i < listLength; i++ ) {
-    
-        sauceOptionsTemplate(sauceList[i], container, PID, setName);
-
+        if (sauceList[i] != 'req') {
+             sauceOptionsTemplate(sauceList[i], container, PID, setName);
+        }
     }
 }
