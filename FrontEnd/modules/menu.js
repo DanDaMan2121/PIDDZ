@@ -2,6 +2,7 @@
 import { setItemInCart, getCart, pushCart } from "./cartMethods.js";
 import { firebaseConfig } from "./firebase-config.js";
 import firebaseService  from "./firebase-service.js";
+import Pizza from "./pizzaClass.js";
 
 // const fb = new FirebaseService();
 // console.log(fb.getMenuItems());
@@ -89,10 +90,11 @@ const menuItems = [
 let cart = getCart();
 
 // Render menu
-function renderMenu(filter = 'all') {
+function renderMenu(menu, filter = 'all') {
     const menuContainer = document.getElementById('menu');
-    const items = filter === 'all' ? menuItems : menuItems.filter(item => item.category === filter);
+    const items = filter === 'all' ? menu : menu.filter(item => item.category === filter);
     // Generates HTML for each menu item
+    // console.log(items);
     const html = items.map(item => `
         <div class="menuItem">
             <div class="item-image">
@@ -111,12 +113,19 @@ function renderMenu(filter = 'all') {
         </div>
     `).join('');
     // Inserts generated HTML into the menu container
-    menuContainer.innerHTML = html;
+    menuContainer.innerHTML = menuContainer.innerHTML + html;
 
     // Adds event listeners to action buttons
     document.querySelectorAll('.item-action').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const id = parseInt(e.target.dataset.id);
+            const myId = e.target.dataset.id
+            let id = null
+            if (isNaN(myId)) {
+                id = e.target.dataset.id;
+            } else {
+                id = parseInt(e.target.dataset.id);
+            }
+            // console.log(id);
             const category = e.target.dataset.category;
             handleItemAction(id, category);
         });
@@ -124,10 +133,26 @@ function renderMenu(filter = 'all') {
 }
 
 // Handles item action
-function handleItemAction(id, category) {
+async function handleItemAction(id, category) {
     if (category === 'pizza') {
         localStorage.setItem('newPizza', true);
         window.location.href = './pizzaBuilder.html';
+    } else if (category === 'Pizza') {
+        localStorage.setItem('newPizza', false);
+        const myMenuItems = await firebaseService.getMenuItems();
+        let myMenuList = []
+        for (const key in myMenuItems) {
+            myMenuList.push(myMenuItems[key]);
+        }
+        let item = myMenuList.find(i => i.id == id);
+        // need to create a new pizza with the properties of this one
+        const myImportedObject = item.object;
+        let myPizza = new Pizza();
+        myPizza.crust = Object.keys(myImportedObject.crustOptions);
+        console.log(item.object);
+        console.log(myPizza);
+        
+
     } else {
         let item = menuItems.find(i => i.id === id);
         item.id = getCart().length;
@@ -162,7 +187,14 @@ document.getElementById('cartBadge').addEventListener('click', () => {
 
 // To Initialize
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log(await firebaseService.getMenuItems());
-    renderMenu();
+    // console.log(await firebaseService.getMenuItems());
+    const myMenuItems = await firebaseService.getMenuItems();
+    let myMenuList = []
+    for (const key in myMenuItems) {
+        myMenuList.push(myMenuItems[key]);
+    }
+
+    renderMenu(myMenuList);
+    renderMenu(menuItems);
     updateCartCount();
 });

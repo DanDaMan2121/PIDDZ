@@ -309,7 +309,7 @@ async function createItemDiv(item) {
       const length = children.length - offset;
       const pathName = itemDiv.id;
       // console.log(length);
-
+      console.log(children);
       if (length < 1) { // adds items to the menu
         const myData = myMap.get(pathName);
         pushUserData('StoreMenu', myData);
@@ -321,7 +321,7 @@ async function createItemDiv(item) {
           const subOffset = 1; // name is the first div
           const subLength = subChild.length - subOffset;
           const subChildName = subChild[0].textContent;
-          let subObject = {};
+          let subObject = '';
           for (let j = 0; j < subLength; j++) {
             const currentChild = subChild[j + subOffset];
             const currentName = currentChild.textContent;

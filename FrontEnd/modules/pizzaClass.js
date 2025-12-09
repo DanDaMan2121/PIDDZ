@@ -18,5 +18,4 @@ export class Pizza {
     
 }
 
-
-// export default Pizza;
+export default Pizza;
