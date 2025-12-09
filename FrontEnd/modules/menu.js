@@ -152,25 +152,34 @@ async function handleItemAction(id, category) {
         myPizza.sauce[0] = myImportedObject.sauceOptions;
         myPizza.size = myImportedObject.sizeOptions;
         
-        const toppings = []
+        const pToppings = []
         // myImportedObject.meatToppings.concat(myImportedObject.vegetableToppings);
-        if (myImportedObject.mToppingsLength != undefined) {
-            const mToppingsLength = myImportedObject.meatToppings.length;
-            for (let i = 0; i < mToppingsLength; i++) {
-                let myTopping = myImportedObject.meatToppings[i]
-                toppings.push([myTopping, 'whole', 'Normal']);
-            }
-        }
-    
-        if (myImportedObject.vegetableToppings != undefined) {
-            const vToppingsLength = myImportedObject.vegetableToppings.length;
-            for (let i = 0; i < mToppingsLength; i++) {
-                let myTopping = myImportedObject.vegetableToppings[i]
-                toppings.push([myTopping, 'whole', 'Normal']);
+        if (myImportedObject.meatToppings != undefined) {
+            if (typeof myImportedObject.meatToppings == 'string') {
+                pToppings.push([myImportedObject.meatToppings, 'whole', 'Normal']);
+            } else {
+                const mToppingsLength = myImportedObject.meatToppings.length;
+                for (let i = 0; i < mToppingsLength; i++) {
+                    let myTopping = myImportedObject.meatToppings[i]
+                    pToppings.push([myTopping, 'whole', 'Normal']);
+                }
             }
         }
 
-        myPizza.toppings = toppings;
+        console.log(pToppings);
+        if (myImportedObject.vegetableToppings != undefined) {
+            if (typeof myImportedObject.meatToppings == 'string') {
+                pToppings.push([myImportedObject.vegetableToppings, 'whole', 'Normal']);
+            } else {
+                const vToppingsLength = myImportedObject.vegetableToppings.length;
+                for (let i = 0; i < vToppingsLength; i++) {
+                    let myTopping = myImportedObject.vegetableToppings[i]
+                    pToppings.push([myTopping, 'whole', 'Normal']);
+                }
+            }
+        }
+
+        myPizza.toppings = pToppings;
         myPizza.PID = cartSize();
         localStorage.setItem('editPizza', myPizza.PID);
         pushCart(myPizza);
