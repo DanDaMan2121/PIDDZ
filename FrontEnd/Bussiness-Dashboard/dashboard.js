@@ -308,8 +308,7 @@ async function createItemDiv(item) {
       const offset = 3;
       const length = children.length - offset;
       const pathName = itemDiv.id;
-      // console.log(length);
-      console.log(children);
+      
       if (length < 1) { // adds items to the menu
         const myData = myMap.get(pathName);
         pushUserData('StoreMenu', myData);
@@ -321,16 +320,21 @@ async function createItemDiv(item) {
           const subOffset = 1; // name is the first div
           const subLength = subChild.length - subOffset;
           const subChildName = subChild[0].textContent;
-          let subObject = '';
+          let subOptions = []; // <-------------------- where you should be looking
+
           for (let j = 0; j < subLength; j++) {
             const currentChild = subChild[j + subOffset];
             const currentName = currentChild.textContent;
-            subObject[currentName] = '';
+            if (subLength == 1) {
+              subOptions = currentName ;
+            } else {
+              subOptions.push(currentName);
+            }
             const optionPath = pathName + '/' + subChildName + '/' + currentName;
             // console.log(optionPath);
             // writeUserData('StoreMenu', optionPath);
           }
-          myObject[subChildName] = subObject;
+          myObject[subChildName] = subOptions;
         }
         myMap.get(item).object = myObject;
         const myData = myMap.get(pathName);
@@ -599,9 +603,25 @@ async function loadItem(path, itemName) {
 // displays menu
 async function loadMenu(path) {
   const data = await readUserData(path, '');
+  console.log(data);
   const container = document.createElement('div');
+
   Object.keys(data).forEach(key => {
     const itemContainer = document.createElement('div');
+    itemContainer.style.display = 'flex';
+    itemContainer.style.flexDirection = 'column';
+    
+    const navContainer = document.createElement('div');
+    navContainer.style.display = 'flex';
+    navContainer.style.justifyContent = 'space-between';
+
+    const itemName = document.createElement('span');
+    itemName.style.color = 'orange';
+    itemName.textContent = data[key].name;
+    
+    const modContainer = document.createElement('div');
+    modContainer.className = 'modContainer';
+
     const removeButton = document.createElement('button');
     removeButton.textContent = 'remove';
     removeButton.addEventListener('click', () => {
@@ -615,40 +635,130 @@ async function loadMenu(path) {
       removeButton.textContent = 'delete';
     
     })
-    // itemContainer.className = 'itemContainer';
-    itemContainer.style.display = 'flex';
-    itemContainer.style.flexDirection = 'column';
-    const itemName = document.createElement('span');
-    itemName.style.color = 'orange';
-    itemName.textContent = data[key].name;
-    itemContainer.append(itemName, removeButton);
+    const infoContainer = document.createElement('div');
+    infoContainer.style.display = 'none';
+    const displayButton = document.createElement('button');
+    displayButton.textContent = 'expand';
+    displayButton.addEventListener('click', () => {
+      if (displayButton.textContent == 'expand') {
+        infoContainer.style.display = 'flex';
+        infoContainer.style.flexDirection = 'column';
+        displayButton.textContent = 'close';
+      } else {
+        infoContainer.style.display = 'none';
+        displayButton.textContent = 'expand';
+      }
+    });
+    
+    modContainer.append(removeButton, displayButton);
+    navContainer.append(itemName, modContainer);
+    itemContainer.append(navContainer);
     container.append(itemContainer);
+
     Object.keys(data[key]).forEach(subKey => {
       if (subKey != 'name' && subKey != 'id') {
         const optionContainer = document.createElement('div');
-        const optionName = document.createElement('span');
-        optionName.textContent = subKey + " ";
-        optionName.style.color = 'red';
-        optionContainer.append(optionName);
         optionContainer.style.display = 'inherit';
         optionContainer.style.flexDirection = 'column'
+
+        const optionDiv = document.createElement('div');
+        optionDiv.style.display = 'inherit';
+        optionDiv.style.flexDirection = 'row';
+        optionDiv.style.justifyContent = 'space-between';
+
+        
+        const optionName = document.createElement('span');
+        optionName.textContent = subKey;
+        optionName.style.color = 'red';
+
         if (subKey == 'object') {
-          Object.keys(data[key][subKey]).forEach(sKey => {
-            const subName = document.createElement('span');
-            subName.textContent = sKey;
-            optionContainer.append(subName);
-          })
+          const itemObject = data[key][subKey];
+          // console.log(itemObject);
+          optionName.textContent = `${data[key].category} contents`;
+          optionContainer.append(optionName);
+          Object.keys(itemObject).forEach(oKey => {
+            const objectContainer = document.createElement('div');
+            const contentName = document.createElement('span');
+            contentName.style.color = 'purple';
+            contentName.style.paddingLeft = '5px';
+            contentName.textContent = oKey;
+            objectContainer.append(contentName);
+
+            const contentContainer = document.createElement('div');
+            // console.log(itemObject[oKey]);
+            
+            const contentSpan = document.createElement('span');
+            contentSpan.textContent = itemObject[oKey];
+            contentSpan.style.paddingLeft = '15px';
+
+            contentContainer.append(contentSpan);
+    
+            objectContainer.append(contentContainer);
+            optionContainer.append(objectContainer);
+          });
         } else {
-          const text = document.createElement('span');
-          if (subKey == 'price') {
-            text.textContent = `$${data[key][subKey]}`;
+          const optionInfo = document.createElement('span');
+          if (subKey == 'price') { // handles the price
+            const optionInfoContainer = document.createElement('div');
+            const priceInput = document.createElement('input');
+            priceInput.type = 'number';
+            const setButton = document.createElement('button');
+            setButton.textContent = 'set';
+
+            setButton.addEventListener('click', () => {
+              const userInput = parseFloat(priceInput.value);
+              priceInput.value = '';
+              if (userInput > 0) {
+                optionInfo.textContent = `$${userInput}`;
+                writeUserObject('StoreMenu' + '/' + key + '/' + subKey, userInput);     
+
+              } else {
+                alert('You have eneted an invalid number please try again');
+              }
+            });
+            optionInfo.textContent = `$${data[key][subKey]}`;
+
+            optionInfoContainer.append(optionInfo, priceInput, setButton);
+            optionDiv.append(optionName, optionInfoContainer);
+            
+          } else if (subKey == 'description') { // handles description
+            optionInfo.textContent = data[key][subKey];
+            const optionInfoContainer = document.createElement('div');
+
+            const descriptionContainer = document.createElement('div');
+            descriptionContainer.style.paddingLeft = '5px';
+            descriptionContainer.textContent = data[key][subKey];
+
+            const descriptionInput = document.createElement('input');
+            descriptionInput.type = 'text';
+
+            const setButton = document.createElement('button');
+            setButton.textContent = 'set';
+            setButton.addEventListener('click', () => {
+              const description = descriptionInput.value;
+              descriptionInput.value = '';
+              descriptionContainer.textContent = description;
+              // console.log(`${key} ${subKey}`);
+              writeUserObject('StoreMenu' + '/' + key + '/' + subKey, description);
+            }); 
+
+            optionInfoContainer.append(descriptionInput, setButton)
+            const nameInfoDiv = document.createElement('div');
+            nameInfoDiv.append(optionName, optionInfoContainer);
+            nameInfoDiv.style.display = 'flex';
+            nameInfoDiv.style.flexDirection = 'row';
+            nameInfoDiv.style.justifyContent = 'space-between';
+            optionDiv.append(nameInfoDiv, descriptionContainer);
+            optionDiv.style.flexDirection = 'column';
+
           } else {
-            text.textContent = data[key][subKey];
+            optionInfo.textContent = data[key][subKey];
+            optionDiv.append(optionName, optionInfo);
           }
-          
-          optionContainer.append(text);
+          optionContainer.append(optionDiv);
         }
-        itemContainer.append(optionContainer);
+        infoContainer.append(optionContainer)
+        itemContainer.append(infoContainer);
       }
     });
     container.append(itemContainer);
@@ -657,9 +767,7 @@ async function loadMenu(path) {
 }
 
 
-const MenuItem = document.createElement('span');
-MenuItem.textContent = 'ITEM LIST';
-eContainer.append(MenuItem);
+
 const templateFrame = document.createElement('div');
 templateFrame.id = 'templateFrame';
 templateFrame.append(await loadTemplate("StoreTemplate's"));

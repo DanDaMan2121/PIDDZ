@@ -1,5 +1,5 @@
 // Array of all menu items with details
-import { setItemInCart, getCart, pushCart } from "./cartMethods.js";
+import { setItemInCart, getCart, pushCart, cartSize } from "./cartMethods.js";
 import { firebaseConfig } from "./firebase-config.js";
 import firebaseService  from "./firebase-service.js";
 import Pizza from "./pizzaClass.js";
@@ -148,13 +148,46 @@ async function handleItemAction(id, category) {
         // need to create a new pizza with the properties of this one
         const myImportedObject = item.object;
         let myPizza = new Pizza();
-        myPizza.crust = Object.keys(myImportedObject.crustOptions);
-        console.log(item.object);
-        console.log(myPizza);
+        myPizza.crust = myImportedObject.crustOptions;
+        myPizza.sauce[0] = myImportedObject.sauceOptions;
+        myPizza.size = myImportedObject.sizeOptions;
         
+        const toppings = []
+        // myImportedObject.meatToppings.concat(myImportedObject.vegetableToppings);
+        if (myImportedObject.mToppingsLength != undefined) {
+            const mToppingsLength = myImportedObject.meatToppings.length;
+            for (let i = 0; i < mToppingsLength; i++) {
+                let myTopping = myImportedObject.meatToppings[i]
+                toppings.push([myTopping, 'whole', 'Normal']);
+            }
+        }
+    
+        if (myImportedObject.vegetableToppings != undefined) {
+            const vToppingsLength = myImportedObject.vegetableToppings.length;
+            for (let i = 0; i < mToppingsLength; i++) {
+                let myTopping = myImportedObject.vegetableToppings[i]
+                toppings.push([myTopping, 'whole', 'Normal']);
+            }
+        }
+
+        myPizza.toppings = toppings;
+        myPizza.PID = cartSize();
+        localStorage.setItem('editPizza', myPizza.PID);
+        pushCart(myPizza);
+        window.location.href = './pizzaBuilder.html';
 
     } else {
-        let item = menuItems.find(i => i.id === id);
+        let item = null
+        if(menuItems.find(i => i.id === id) != undefined) {
+            item = menuItems.find(i => i.id === id);
+        } else {
+            const myMenuItems = await firebaseService.getMenuItems();
+            let myMenuList = []
+            for (const key in myMenuItems) {
+                myMenuList.push(myMenuItems[key]);
+            }
+            item = myMenuList.find(i => i.id == id);
+        }
         item.id = getCart().length;
         pushCart(item);
         alert(`${item.name} was added to your cart!`);

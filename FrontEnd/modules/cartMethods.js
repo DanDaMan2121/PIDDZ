@@ -52,3 +52,8 @@ export function removeItemInCart(index) {
         console.log('Item does not exist');
     }
 }
+
+export function cartSize() {
+    let myCart = getCart();
+    return myCart.length;
+}

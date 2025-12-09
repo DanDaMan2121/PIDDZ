@@ -231,7 +231,7 @@ payBtn.addEventListener('click', async () => {
 
         window.sessionStorage.setItem('cart', null);
         setTimeout(() => {
-            window.location.href = '../index.html';
+            // window.location.href = '../index.html';
         }, 3000);
     }, 2000);
 });
