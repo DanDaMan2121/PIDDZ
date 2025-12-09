@@ -36,12 +36,6 @@
 .intReq {
     width: 20px;
 }
-/* 
-#menuContainer {
-    height: 100vh;
-    width: 100vw;
-    background-color: blue;
-} */
 
 body {
     background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);

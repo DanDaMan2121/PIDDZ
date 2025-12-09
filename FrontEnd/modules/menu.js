@@ -197,7 +197,7 @@ async function handleItemAction(id, category) {
 
 // Updates the cart count
 function updateCartCount() {
-    document.querySelector('.cart-count').textContent = cart.length;
+    document.querySelector('.cart-count').textContent = cartSize();
 }
 
 // Filters the buttons

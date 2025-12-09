@@ -17,7 +17,6 @@ export class FirebaseService {
      * @returns {Promise<string>} - Order ID
      */
     async saveOrder(orderData) {
-        
         const ordersRef = ref(database, 'StoreOrders'); // reference to the orders table
         const newOrderRef = push(ordersRef);
         
@@ -33,10 +32,10 @@ export class FirebaseService {
             estimatedTime: '30-45 minutes'
         };
         
-        await set(ordersRef, order)
+        await set(newOrderRef, order)
         .then(() => {
             console.log('Order saved successfully:', order.orderId);
-            return order.orderId;;
+            return order.orderId;
         })
         .catch ((error) => {
             console.error(`Error setting node: ${error}`);

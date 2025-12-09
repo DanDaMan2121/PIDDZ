@@ -190,7 +190,8 @@ payBtn.addEventListener('click', async () => {
 
         // Build order object
         try {
-            const rawCart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            console.log(getCart());
+            const rawCart = JSON.parse(sessionStorage.getItem('cart')) || []; // problem is here
             const items = rawCart.map(i => JSON.parse(i));
 
             // compute totals
@@ -229,7 +230,7 @@ payBtn.addEventListener('click', async () => {
             console.error('Error building/saving order', err);
         }
 
-        window.sessionStorage.setItem('cart', null);
+        // window.sessionStorage.setItem('cart', null);
         setTimeout(() => {
             // window.location.href = '../index.html';
         }, 3000);
