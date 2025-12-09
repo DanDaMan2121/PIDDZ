@@ -75,3 +75,9 @@ async function generateOrders() {
 document.addEventListener('DOMContentLoaded', () => {
     generateOrders()
 });
+
+
+const menuButton = document.getElementById('menuBuilder');
+menuButton.addEventListener('click', () => {
+    window.location.href = './dashboard.html';
+})

@@ -308,10 +308,17 @@ async function createItemDiv(item) {
       const offset = 3;
       const length = children.length - offset;
       const pathName = itemDiv.id;
-      
+
+      // myMap.get('currentEdit').remove();
+
       if (length < 1) { // adds items to the menu
         const myData = myMap.get(pathName);
         pushUserData('StoreMenu', myData);
+        let delDiv = myMap.get('currentItem');
+        delDiv.remove();
+        let delEdit = myMap.get('currentEdit');
+        delEdit.remove()
+        createContainer.style.display = 'flex';
 
       } else {
         let myObject = {};
@@ -341,6 +348,9 @@ async function createItemDiv(item) {
         pushUserData('StoreMenu', myData);
         let delDiv = myMap.get('currentItem');
         delDiv.remove();
+        let delEdit = myMap.get('currentEdit');
+        delEdit.remove()
+        createContainer.style.display = 'flex';
       }
       menuListContainer.replaceChildren();
       menuListContainer.append(await loadMenu("StoreMenu"));
@@ -603,11 +613,12 @@ async function loadItem(path, itemName) {
 // displays menu
 async function loadMenu(path) {
   const data = await readUserData(path, '');
-  console.log(data);
+  // console.log(data);
   const container = document.createElement('div');
 
   Object.keys(data).forEach(key => {
     const itemContainer = document.createElement('div');
+    itemContainer.className = 'iContainer';
     itemContainer.style.display = 'flex';
     itemContainer.style.flexDirection = 'column';
     
@@ -792,3 +803,7 @@ function createTemplateObject (data) {
   
 }
 
+const orderButton = document.getElementById('orders');
+orderButton.addEventListener('click', () => {
+  window.location.href = './orders.html';
+});

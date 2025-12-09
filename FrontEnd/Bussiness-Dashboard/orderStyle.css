@@ -36,3 +36,8 @@ body {
     border-image: linear-gradient(90deg, #22c55e 0%, #16a34a 100%) 1;
     margin-bottom: 5px;
 }
+
+#menuBuilder {
+    /* position: absolute; */
+    
+}

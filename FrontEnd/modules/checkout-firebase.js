@@ -8,6 +8,8 @@ let totalSumDiv = document.getElementById('totalSum');
 let tax = document.getElementById('tax');
 let afterTax = document.getElementById('afterTax');
 let pay = document.getElementById('payContainer');
+let userPhone = document.getElementById('userPhone');
+let savebutton = document.createElement('saveButton');
 
 let setOptions = (myPizza, sOptions) => {
     if (myPizza.quantity > 1) {
@@ -158,6 +160,10 @@ orderMore.addEventListener('click', () => {
     window.location.href = './menu.html';
 })
 
+// savebutton.addEventListener('click', () => {
+
+// })
+
 let payBtn = document.getElementById('pay');
 let payMsgDiv = document.createElement('div');
 payMsgDiv.style.textAlign = 'center';
@@ -213,11 +219,12 @@ payBtn.addEventListener('click', async () => {
         };
         
         // Saves this to Firebase
-        const userId = await firebaseService.saveOrder(orderData); // not working properly
+        let orderId = '';
+        orderId = await firebaseService.saveOrder(orderData); // not working properly
         
         // Shows the success message
-        console.log(userId);
-        payMsgDiv.innerHTML = `<span style="color:#22c55e; font-weight:700;">Order Placed!</span><br>Order #<b>${userId.substring(0, 6).toUpperCase()}</b>`;
+        console.log(orderId);
+        payMsgDiv.innerHTML = `<span style="color:#22c55e; font-weight:700;">Order Placed!</span><br>Order #<b>${orderId.substring(0, 6).toUpperCase()}</b>`;
         payBtn.innerText = 'PAID';
         payBtn.style.background = '#22c55e';
         payBtn.style.color = '#fff';
@@ -228,7 +235,7 @@ payBtn.addEventListener('click', async () => {
         
         // Redirects to the home screen after 3 seconds
         setTimeout(() => {
-            // window.location.href = '../index.html';
+            window.location.href = '../index.html';
         }, 3000);
         
     } catch (error) {

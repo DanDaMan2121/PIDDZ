@@ -8,76 +8,76 @@ import Pizza from "./pizzaClass.js";
 // console.log(fb.getMenuItems());
 
 const menuItems = [
-    {
-        id: 1,
-        name: "Classic Pepperoni",
-        category: "pizza",
-        description: "Loaded with pepperoni and mozzarella cheese on our signature sauce",
-        price: 12.99
-    },
-    {
-        id: 2,
-        name: "Margherita",
-        category: "pizza",
-        description: "Fresh mozzarella, tomatoes, and basil",
-        price: 11.99
-    },
-    {
-        id: 3,
-        name: "Meat Lovers",
-        category: "pizza",
-        description: "Pepperoni, sausage, bacon, and ham",
-        price: 14.99
-    },
-    {
-        id: 4,
-        name: "Veggie Supreme",
-        category: "pizza",
-        description: "Peppers, mushrooms, onions, and olives",
-        price: 12.99
-    },
-    {
-        id: 5,
-        name: "Garlic Knots",
-        category: "sides",
-        description: "Fresh baked knots with garlic butter",
-        price: 5.99
-    },
-    {
-        id: 6,
-        name: "Mozzarella Sticks",
-        category: "sides",
-        description: "Crispy breaded mozzarella",
-        price: 6.99
-    },
-    {
-        id: 7,
-        name: "Caesar Salad",
-        category: "sides",
-        description: "Romaine lettuce with caesar dressing",
-        price: 7.99
-    },
-    {
-        id: 8,
-        name: "Coca-Cola",
-        category: "drinks",
-        description: "Ice cold Coca-Cola (2L)",
-        price: 2.99
-    },
-    {
-        id: 9,
-        name: "Lemonade",
-        category: "drinks",
-        description: "Fresh squeezed lemonade (1L)",
-        price: 3.49
-    },
-    {
-        id: 10,
-        name: "Chocolate Lava Cake",
-        category: "desserts",
-        description: "Warm chocolate cake with ice cream",
-        price: 5.99
-    },
+    // {
+    //     id: 1,
+    //     name: "Classic Pepperoni",
+    //     category: "pizza",
+    //     description: "Loaded with pepperoni and mozzarella cheese on our signature sauce",
+    //     price: 12.99
+    // },
+    // {
+    //     id: 2,
+    //     name: "Margherita",
+    //     category: "pizza",
+    //     description: "Fresh mozzarella, tomatoes, and basil",
+    //     price: 11.99
+    // },
+    // {
+    //     id: 3,
+    //     name: "Meat Lovers",
+    //     category: "pizza",
+    //     description: "Pepperoni, sausage, bacon, and ham",
+    //     price: 14.99
+    // },
+    // {
+    //     id: 4,
+    //     name: "Veggie Supreme",
+    //     category: "pizza",
+    //     description: "Peppers, mushrooms, onions, and olives",
+    //     price: 12.99
+    // },
+    // {
+    //     id: 5,
+    //     name: "Garlic Knots",
+    //     category: "sides",
+    //     description: "Fresh baked knots with garlic butter",
+    //     price: 5.99
+    // },
+    // {
+    //     id: 6,
+    //     name: "Mozzarella Sticks",
+    //     category: "sides",
+    //     description: "Crispy breaded mozzarella",
+    //     price: 6.99
+    // },
+    // {
+    //     id: 7,
+    //     name: "Caesar Salad",
+    //     category: "sides",
+    //     description: "Romaine lettuce with caesar dressing",
+    //     price: 7.99
+    // },
+    // {
+    //     id: 8,
+    //     name: "Coca-Cola",
+    //     category: "drinks",
+    //     description: "Ice cold Coca-Cola (2L)",
+    //     price: 2.99
+    // },
+    // {
+    //     id: 9,
+    //     name: "Lemonade",
+    //     category: "drinks",
+    //     description: "Fresh squeezed lemonade (1L)",
+    //     price: 3.49
+    // },
+    // {
+    //     id: 10,
+    //     name: "Chocolate Lava Cake",
+    //     category: "desserts",
+    //     description: "Warm chocolate cake with ice cream",
+    //     price: 5.99
+    // },
     {
         id: 11,
         name: "Cinnamon Sticks",
@@ -125,7 +125,7 @@ function renderMenu(menu, filter = 'all') {
             } else {
                 id = parseInt(e.target.dataset.id);
             }
-            // console.log(id);
+            // updateCartCount();
             const category = e.target.dataset.category;
             handleItemAction(id, category);
         });
@@ -228,6 +228,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     renderMenu(myMenuList);
-    renderMenu(menuItems);
+    // renderMenu(menuItems);
     updateCartCount();
 });

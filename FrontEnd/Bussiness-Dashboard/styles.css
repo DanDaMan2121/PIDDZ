@@ -42,7 +42,7 @@ body {
 }
 
 #editContainer, #editContainers, #createContainer, #menuListContainer {
-    /* margin: 10px; */
+    overflow: auto;
     padding: 5px;
     width: 30vw;
     height: 90vh;
@@ -51,6 +51,7 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
 }
+
 #addItemDiv { 
     /* position: absolute; */
     bottom: 0px;
@@ -75,4 +76,10 @@ body {
     border-radius: 20px 20px 0px 0px;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.iContainer {
+    border-bottom: 3px solid green;
+    border-image: linear-gradient(90deg, #22c55e 0%, #16a34a 100%) 1;
+    margin-bottom: 5px;
 }
