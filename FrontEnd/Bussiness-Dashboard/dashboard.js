@@ -309,8 +309,6 @@ async function createItemDiv(item) {
       const length = children.length - offset;
       const pathName = itemDiv.id;
 
-      // myMap.get('currentEdit').remove();
-
       if (length < 1) { // adds items to the menu
         const myData = myMap.get(pathName);
         pushUserData('StoreMenu', myData);

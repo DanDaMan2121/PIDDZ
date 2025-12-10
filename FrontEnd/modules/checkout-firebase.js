@@ -244,5 +244,8 @@ payBtn.addEventListener('click', async () => {
         payBtn.style.opacity = '1';
         payBtn.style.pointerEvents = 'auto';
         processing = false;
+        setTimeout(() => {
+            window.location.href = '../index.html';
+        }, 1000);
     }
 });
